@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+{% load static %}
+
+<a href="/social/mypost" class="btn btn-danger text-center">Back</a>
+<div class=" container-fluid">
+    <div class="container w-100">
+        <h1 class="text-primary font-weight-bold">{{post.subject}}</h1>
+        <h4>
+            <span class="text-warning ml-2 font-weight-bold badge badge-pill badge-danger">{{post.cr_date|naturaltime }}</span></h4>
+        <h5 class="text-right font-weight-bold text-primary">
+            Date:{{post.cr_date | date:"d/m/y"}}</h5>
+        <!-- <hr> -->
+        <div class="row">
+            <center class="card w-100 shadow-lg p-3 mb-5 bg-white rounded">
+                <div class="row container">
+                    {% if post.pic %}
+                    <div {% if post.videofile %} class="col-md-8" {% else %} class="col-md-12" {% endif %}>
+                        <img class="img-fluid img-responsive img-thumbnail text-center w-100" src="/media/{{post.pic}}" alt="pic upload" style="width:; height:450px;">
+                    </div>
+                    {% endif %}
+                    {% if post.videofile %}
+                    <div {% if post.pic %} class="col-md-4" {% else %} class="col-md-12" {% endif %}>
+                        <video style="height:450px;" class="img-fluid img-responsive img-thumbnail text-center w-100" controls="true">
+                            }
+                            <source src="/media/{{post.videofile}}" type='video/mp4'>
+                        </video>
+                    </div>
+                    {% endif %}
+                </div>
+            </center>
+            <div class="container p-5">
+                <h4 class="text-justify">{{post.msg}}</h4>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ///////////////comment section start///////////////////// -->
+<section class="container-fluid ">
+    <h1 class="text-gray-dark text-center font-weight-bold">comment()</h1>
+    <div class="container">
+        <form action="/social/mypost/{{post.id}}" method="POST">
+            {{comment_form|crispy}}
+            <!-- {{ comment_form.as_p }} -->
+            {% csrf_token %}
+            <button type="submit" class="btn btn-info btn-md">comment</button>
+        </form>
+        <br>
+        {% for comment in comments %}
+        <div class="row">
+            <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1">
+                <img src="{{request.user.myprofile.pic.url}}" class="img-fluid img-responsive img-thumbnail rounded-circle" alt="user" style="width: 60px; height: 60px;">
+            </div>
+            <div class="col-md-11 col-lg-11 col-sm-11">
+                <b class="text-uppercase text-danger font-weight-bold">{{comment.commented_by.name}}</b>
+                <span class="text-warning ml-2 font-weight-bold badge badge-pill badge-primary">{{comment.created|naturaltime }}</span> <br>
+                <div>{{comment.body}}</div>
+            </div>
+        </div>
+        <!-- reply here -->
+        {% for replay in comment.replies.all %}
+        <br>
+        <div class="row ml-5">
+            <div class="col-md-1 col-lg-1 col-sm-1">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRI9dPlenIRsg4ygtqVWOSt_QtxbRZtTrA2Hg&usqp=CAU" class="img-fluid img-responsive img-thumbnail rounded-circle" alt="user" style="width: 60px; height: 60px;">
+            </div>
+            <div class="col-md-11 col-lg-11 col-sm-11">
+                <b class="text-uppercase text-danger font-weight-bold">
+                    {{ replay.commented_by.name }}</b>
+                <span class="text-info font-weight-bold badge badge-pill badge-dark">{{replay.created|naturaltime }}</span> <br>
+                <div>{{replay.body}}</div>
+            </div>
+        </div>
+        <br>
+        {% endfor %}
+        <button class="btn btn-primary btn-sm ml-5" type="button" data-toggle="collapse" data-target="#{{ comment.id }}" aria-expanded="false" aria-controls="reply" id="#{{ comment.id }}">
+            Reply</button>
+        <form action="/social/mypost/{{post.id}}" class="container collapse" id="{{ comment.id }}" method="POST">
+            {% csrf_token %}
+            {{comment_form|crispy}}
+            <!-- Hidden input for parent comment.id -->
+            <input type="hidden" name="parent_id" value="{{ comment.id }}">
+            <button type="submit" class="btn btn-danger btn-md">Replay</button>
+        </form>
+        <hr>
+        <br>
+        {% empty %}
+        <h4> No comments Here...</h4>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

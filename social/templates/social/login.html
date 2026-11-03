@@ -1,0 +1,38 @@
+{% extends 'base.html'%}
+{% load crispy_forms_tags %}
+{% block tittle %} login page {% endblock %}
+{% load static %}
+{% block content %}
+<section class="container-fluid p-5 spimg">
+    <div class="container p-5">
+        <div class=" col-md-8 m-auto card border- border-rounded pt-5 spimg2 ">
+            <div class="card-body border- border-rounded border-5 shadow-lg p-3 mb-5 spimg2 ">
+                <div class="" style="background-image: url({% static 'account/images/d.jpg' %});">
+                    <h4 class="text-center text-danger font-weight-bold text-uppercase pt-4"> Login page ? <a href="{% url 'register' %}" style="color:#fff;">Sign Up</a></h4>
+                    <br>
+                </div>
+                <form class="" method="POST">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <div class="container-login100-form-btn">
+                        <button class=" btn btn-md btn-primary btn-info font-weight-bold text-white">
+                            Login</button>
+                    </div>
+                    <div>
+                    </div>
+                    <center>
+                        <a href="{% url 'reset_password' %}" class="txt1 btn btn-lg btn-md btn-danger text-uppercase text-white font-weight-bold ">
+                            Forgot Password?
+                        </a>
+<br>
+                             <a href="{% url 'register' %}" class="txt1 btn btn-lg btn-md btn-dark text-white font-weight-bold ">
+                            Create New Account ???..
+                        </a>
+                    </center>
+            </div>
+        </div>
+        </form>
+    </div>
+    </div>
+</section>
+{% endblock %}

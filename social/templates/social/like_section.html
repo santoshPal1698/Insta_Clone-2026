@@ -1,0 +1,6 @@
+	     
+	     {% if n1.liked %}
+            <a class="" href='/social/mypost/unlike/{{n1.id}}' id="unlike" data-unlike_id="{{n1.id}}"><span class="fa fa-heart fa-2x text-danger "></span></a>
+            {% else %}
+            <a class="" href='/social/mypost/like/{{n1.id}}' id="likesp" data-like_id="{{n1.id}}"><span class="far fa-heart fa-2x text-dark"></span></a>
+          {% endif %}

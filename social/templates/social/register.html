@@ -1,0 +1,33 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block tittle %} signup page {% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+{% load static %}
+
+<div class="container-fluid spimg p-5">
+    <div class="container border- border-rounded border-5 shadow-lg p-3 mb-5 spimg2 my-4">
+        <div class=" card col-md-12 m-auto p-5 spimg2">
+            <div class="card-body  ">
+                <div class="">
+                    <div class="login100-form-title" style="background-image: url({% static 'account/images/d.jpg' %});">
+                        <span class="login100-form-title-1">
+                        </span>
+                        <h3 class="text-center text-danger text-uppercase font-weight-bold ml-4">Signup page ? <a href="{% url 'login' %}" style="color:#fff;">Login</a></h3>
+                    </div>
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <!-- {{profile_form|crispy}} -->
+                        <div class="container-login100-form-btn">
+                            <button class=" btn btn-info ">
+                                Sign Up
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+<main class="p-5 container-fluid spimg">
+    <div class="row container p-5">
+        <div class="col-md-6">
+            <h1 class="text-white font-weight-bold"> Are You sure!</h1>
+            <hr>
+            <form enctype="multipart/form-data" method="post">
+                {% csrf_token %}
+                {{form | crispy}}
+                <input class="btn btn-danger fa fa trash fa-2x my-3" type="submit" />
+            </form>
+        </div>
+    </div>
+</main>
+{% endblock %}

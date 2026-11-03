@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+.venv*/
+venv/
+env/
+
+# Django and local database
+*.log
+db.sqlite3
+media/
+staticfiles/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Test and tool caches
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/

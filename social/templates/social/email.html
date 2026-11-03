@@ -1,0 +1,55 @@
+{% extends 'base.html'%}
+
+{% load static %}
+
+{% block content %}
+
+
+
+
+  <style type="text/css">
+    
+    label {
+    display: inline-block;
+    margin-bottom: 0.5rem;
+    color: blue;
+    font-size: 30px;
+    font-weight:  bold;
+}
+  </style>
+ 
+    
+
+      <section class="container-fluid ">
+        <h1 class="text-white text-center text-uppercase">EMail Subscribe</h1> <br>
+        <div class="container">
+        <p class="text-info font-weight-bold text-capitalize">
+Enter your email click on confirmations email,
+    We've  emailed you instructions for setting your Password, if an account exists with the email you entered.
+    You should receive them shortly.
+If you don't receive an email, please make sure you've entered the address you registered with, and check your spam folder.
+</p>
+        <img src="" class="" alt=''>
+        <form class=" offset-2 " action="{% url 'subscribe' %}" method="GET" onsubmit=" load() ">
+        {{form.as_p}}
+
+        <input type="submit" class="btn btn-info btn-lg text-uppercase  " value="subscribe now">
+        </form>
+        </div>
+        </section>
+        <br>
+
+ 
+  
+    <script>
+      $('img').hide()
+
+      function load() {
+        $('img').show()
+        return true
+      }
+    </script>
+  
+ 
+
+  {% endblock %}

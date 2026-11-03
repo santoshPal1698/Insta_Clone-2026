@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+<main class="container-fluid spimg">
+    <div class="row">
+        <div class="container ">
+            <br>
+            <h1 class="text-white text-center font-weight-bold">Profile Update</h1>
+            <hr style="width: 100%; height: 3px; background-color: red;">
+            <form enctype="multipart/form-data" method="post">
+                {% csrf_token %}
+                {{form|crispy}}
+                <input class="btn btn-danger my-3" type="submit" />
+            </form>
+        </div>
+    </div>
+</main>
+{% endblock %}

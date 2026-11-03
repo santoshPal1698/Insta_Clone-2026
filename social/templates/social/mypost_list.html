@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %} PostList page {% endblock title %}
+{% block content %}
+{% load static %}
+
+<div class="p-5 bg-light">
+    <h1 class="myhead2">My Posts </h1>
+    <hr>
+    <form class="form-inline">
+        <input class="form-control mr-3" placeholder="Search" value="{{ request.GET.si }}" type="text" name="si" />
+        <input class="btn btn-dark mr-3" type="submit" value="Search" />
+        <a class="btn btn-dark" href="/social/mypost/create"><span class="fa fa-plus"></span></a>
+    </form>
+    <table class="table my-3">
+        <thead class="bg-warning container">
+            <tr>
+                <th class="text-white font-weight-bold">Subject</th>
+                <th class="text-white font-weight-bold">Date</th>
+                <th class="text-white font-weight-bold">Action</th>
+                <th class="text-white font-weight-bold">Delete</th>
+            </tr>
+        </thead>
+        {% for n1 in mypost_list %}
+        <tr>
+            <td>{{n1.subject}}</td>
+            <td>{{n1.cr_date | date:"d/m/y"}}</td>
+            <td>
+                <a class="btn-lg btn-sm btn-lg btn-xs btn btn-primary" href='/social/mypost/{{n1.id}}'>Read More..</a>
+            </td>
+            <td>
+                <a class="btn btn-danger btn-sm" href='/social/mypost/delete/{{n1.id}}'>
+                    <i class="fa fa-trash fa-2x"></i>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+</div>
+{% endblock %}

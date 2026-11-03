@@ -1,0 +1,363 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- facebook plugins developers Account -->
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v6.0"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link href="/static/style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/fontawesome.css" integrity="sha256-YC896To53D/eet6K3jAwOq67iCIK24u2Hg6CQ+026I8=" crossorigin="anonymous" />
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Baloo+Bhaina+2&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.10.1/css/mdb.min.css" rel="stylesheet">
+    <title> {% block title %} {% endblock title %} </title>
+    <style>
+        {% block css %}
+
+
+     button
+{
+
+      background: linear-gradient(57deg, #00C6A7 , #1E4D92);
+      border-radius:100px;
+      
+
+}
+
+
+button:hover{
+      background: linear-gradient(57deg, red, pink );
+      border-radius:100px;
+
+
+}
+
+
+  * {
+    margin: 0px;
+    padding: 0px;
+  /*font-family: 'Baloo Bhaina 2', cursive;*/
+   font-family: 'Baloo Bhaina 2', cursive;
+ 
+    text-align: justify-all;
+}
+ ul
+ {
+  list-style: none;
+ }
+
+ ul li
+ {
+  text-decoration: none;
+
+ }
+ul li a
+{
+  font-size: 20px;
+}
+h1
+{
+  font-size: 50px;
+  text-transform: uppercase;
+}
+
+section#particles-js
+{
+  width: 100%;
+  height: 40vh;
+     background-image:url("https://stockholdingdms.com/images/bg/testimonial-bg.jpg");
+  background-size: cover;
+ }
+
+ label {
+    color: white!important;
+    font-weight: bold!important;
+    font-size: 20px!important;
+    text-transform: !important;
+
+}
+
+.form-control {
+    color: green!important;
+    font-weight: bold!important;
+    background-color:!important;
+    border: 2px solid skyblue!important;
+    border-radius:30px!important;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out!important;
+}
+
+.spimg
+{
+   background-image:url("/static/images/login.jpg");
+  background-size: cover;
+  z-index: 1;
+  /*height: 100%;*/
+}
+
+.spimg2
+{
+   background-image:url("/static/images/login2.jpg");
+  background-size: cover;
+  /*height: 100%;*/
+}
+
+
+
+.bgimag{
+  background-image: url({% static 'img/sp5.jpg' %});
+  background-size: cover;
+ }
+
+/*label
+{
+  color: white;
+  font-weight: bold;
+  font-size: 30px;
+  text-transform: uppercase;
+}*/
+
+    {% endblock %}
+
+    </style>
+</head>
+
+<body>
+    {% if user.is_authenticated %}
+    <nav class="navbar navbar-expand-md navbar-light  mdb-color">
+        <div class="container">
+            <a class="navbar-brand text-white font-weight-bold animated infinite flash" href="/">
+                <h2>
+                    SP-<b class="text-warning font-weight-bold">TECH</b></h2>
+            </a>
+            <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavId">
+                <ul class="navbar-nav ml-auto mt-2 mt-lg-0 text-white">
+                    <li class="nav-item active">
+                        <a class="nav-link text-white font-weight-bold far fa-home fa-2x" href="/social/home"> <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white font-weight-bold far fa-user fa-2x" href="/social/about"> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white font-weight-bold far fa-phone fa-2x" href="/social/contact"></a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="text-white font-weight-bold btn btn-dark btn-md " href="/accounts/login"><span class="fa fa-power-off fa-2x text-white"></span></a>
+                    </li>
+                    {% endif %}
+                    {% if user.is_superuser %}
+                    <li class="nav-item">
+                        <!--   <a class="nav-link text-white font-weight-bold" href="/admin">Welcome: {{request.user}}</a> -->
+                        <img style="width: 60px; height: 60px;" class="img-fluid rounded-circle img-responsive img-thumbnail ml-3" src="{{request.user.myprofile.pic.url}}" />
+                    </li>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle text-text-uppercase text-white font-weight-bold" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Welcome: {{request.user}}
+                        </button>
+                        <div class="dropdown-menu text-danger" aria-labelledby="dropdownMenuButton">
+                            {% if user.is_authenticated %}
+                            <li class="nav-item">
+                                <a class="nav-link text-primary font-weight-bold text-uppercase" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt fa-2x text-primary"></i>Logout</a>
+                            </li>
+                            {% else %}
+                            {% endif %}
+                            <a class="dropdown-item  text-primary text-uppercase  font-weight-bold" href="/social/change_password/">
+                                <i class="fas fa-key fa-2x text-primary"></i> change password</a>
+                            <a class="nav-link text-primary font-weight-bold text-uppercase" href=" {% url 'reset_password' %}"><i class="fas fa-unlock fa-2x text-primary"></i> Forgot password</a>
+                            <a class="nav-link text-primary font-weight-bold text-uppercase" href="/social/mypost"><i class="fas fa-user fa-2x text-primary"></i> My Posts</a>
+                            <a class="nav-link text-primary font-weight-bold text-uppercase" href="/social/myprofile"><i class="fas fa-street-view fa-2x text-primary"></i> Profiles</a>
+                            <a class="nav-link text-primary font-weight-bold text-uppercase" href="/social/profile/edit/{{ user.myprofile.id }}"><i class="fas fa-user-edit fa-2x text-primary"></i> Edit Profile</a>
+                        </div>
+                    </div>
+                    {% else %}
+                    {% if user.is_authenticated %}
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle font-weight-bold text-white" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            WELCOME:{{request.user.myprofile.name}}
+                            <!-- Login User -->
+                        </button>
+                        <div class="dropdown-menu text-danger" aria-labelledby="dropdownMenuButton">
+                            {% if user.is_authenticated %}
+                            <li class="nav-item">
+                                <!--              <a class="dropdown-item  text-primary text-uppercase  font-weight-bold" 
+                 href="#">
+            <i class="fas fa-user fa-2x text-primary"></i>
+    WELCOME:{{request.user.myprofile.name}}
+              </a>
+ -->
+                                <a class="nav-link text-primary font-weight-bold text-uppercase" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt fa-2x text-primary"></i>Logout</a>
+                            </li>
+                            {% else %}
+                            {% endif %}
+                            <a class="dropdown-item  text-primary text-uppercase  font-weight-bold" href="/social/change_password/">
+                                <i class="fas fa-key fa-2x text-primary"></i> change password</a>
+                            <a class="nav-link text-primary font-weight-bold text-uppercase" href=" {% url 'reset_password' %}"><i class="fas fa-unlock fa-2x text-primary"></i> reset password</a>
+                            <a class="nav-link text-primary font-weight-bold text-uppercase" href="/social/mypost"><i class="fas fa-user fa-2x text-primary"></i> My Posts</a>
+                            <a class="nav-link text-primary font-weight-bold text-uppercase" href="/social/myprofile"><i class="fas fa-street-view fa-2x text-primary"></i> Profiles</a>
+                            <a class="nav-link text-primary font-weight-bold text-uppercase" href="/social/profile/edit/{{ user.myprofile.id }}"><i class="fas fa-user-edit fa-2x text-primary"></i> Edit Profile</a>
+                        </div>
+                        <img style="width: 60px; height: 60px;" class="img-fluid rounded-circle img-responsive img-thumbnail ml-3" src="{{request.user.myprofile.pic.url}}" />
+                    </div>
+                    {% endif %}
+                    {% endif %}
+                </ul>
+            </div>
+            <!-- {{request.user.myprofile.name}} -->
+        </div>
+    </nav>
+    {% endif %}
+    </header>
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+    {% block content %}
+    {% endblock %}
+    <!-- <section id="particles-js"></section> -->
+    {% if user.is_authenticated %}
+    {% block footer %}
+    <!-- Footer -->
+    <section class="container-fluid  mdb-color p-5">
+        <footer class="page-footer font-small mdb-color ">
+            <!-- Grid row -->
+            <div class="row d-flex align-items-center">
+                <!-- Grid column -->
+                <div class="col-md-7 col-lg-8">
+                    <!--Copyright-->
+                    <h5 class="text-center text-md-left">SPTECHPOST@2019 Copyright:
+                        <a href="/" class="text-warning text-capitalize"> <br>
+                            <!-- <h4 > Sptechpblogpost.com</h4> -->
+                    </h5>
+                    </p>
+                </div>
+                <!-- Grid column -->
+                <!-- Grid column -->
+                <div class="col-md-5 col-lg-4 ml-lg-0">
+                    <!-- Social buttons -->
+                    <div class="text-center text-md-right">
+                        <ul class="list-unstyled list-inline">
+                            <li class="list-inline-item">
+                                <a class="btn-floating btn-sm rgba-white-slight mx-1 " href="https://www.facebook.com/">
+                                    <i class="fab fa-facebook-f fa-2x"></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a class="btn-floating btn-sm rgba-white-slight mx-1" href="https://twitter.com/login">
+                                    <i class="fab fa-twitter fa-2x "></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a class="btn-floating btn-sm rgba-white-slight mx-1" href="https://account.google.com
+">
+                                    <i class="fab fa-google-plus-g fa-2x "></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a class="btn-floating btn-sm rgba-white-slight mx-1" href="https://github.com ">
+                                    <i class="fab fa-github fa-2x"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+        </footer>
+    </section>
+    <!-- Footer -->
+    {% endblock %}
+    {% endif %}
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/particlesjs/2.2.3/particles.min.js"></script> -->
+    <script src="/static/vender/bs/js/particles.min.js"></script>
+    <script src="/static/vender/bs/js/particles.js"></script>
+    <script src="/static/vender/bs/js/app.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particlesjs/2.2.3/particles.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.5/lib/darkmode-js.min.js"></script>
+    <script>
+    var options = {
+        bottom: '100px', // default: '32px'
+        right: 'unset', // default: '32px'
+        left: '32px', // default: 'unset'
+        time: '0.5s', // default: '0.3s'
+        mixColor: '#fff', // default: '#fff'
+        backgroundColor: '#fff', // default: '#fff'
+        buttonColorDark: 'skyblue', // default: '#100f2c'
+        buttonColorLight: '#fff', // default: '#fff'
+        saveInCookies: false, // default: true,
+        label: '🌓', // default: ''
+        autoMatchOsTheme: true // default: true
+    }
+
+    const darkmode = new Darkmode(options);
+    darkmode.showWidget();
+    // new Darkmode().showWidget();
+    </script>
+    {% block js %} {% endblock %}
+    <script type="text/javascript">
+    // /////////////////LIKE SECTION FOR AJAX//////////////////// 
+
+    $(document).ready(function(event) {
+        $(document).on('click', '#likesp', function(event) {
+            event.preventDefault();
+            var pk = this.dataset.like_id;
+            console.log('rakesh', pk)
+            url = '/social/mypost/like/' + pk
+            console.log('url', url)
+
+            $.ajax({
+                type: 'GET',
+                url: url,
+                success: function(data) {
+
+                    console.log('data', data)
+                    location.reload();
+                },
+            })
+        })
+
+
+        // /////////////////UNLIKE SECTION FOR AJAX////////////////////   
+
+        $(document).on('click', '#unlike', function(event) {
+            event.preventDefault();
+            var pk = this.dataset.unlike_id;
+            console.log('rakesh', pk)
+            url = '/social/mypost/unlike/' + pk
+            console.log('url', url)
+            $.ajax({
+                type: 'GET',
+                url: url,
+                success: function(data) {
+                    console.log('data', data)
+                    location.reload();
+                },
+            })
+        })
+    });
+    </script>
+</body>
+
+</html>

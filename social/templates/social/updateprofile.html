@@ -1,0 +1,20 @@
+{% extends 'base.html'%}
+{% block tittle %}user profile {% endblock %}
+{% load static %}
+{% block content %}
+{% load static %}
+
+<section class="container-fluid bg-light">
+    <br>
+    <h1 class="text-white text-uppercase font-weight-bold text-center">update profile page</h1> <br>
+    <div class="container p-5 ">
+        <form method="post" action="{% url 'updateprofile' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{form|crispy}}
+            <button class=" btn btn-md btn-danger">submit</button>
+        </form>
+        <br>
+        <a href="{% url 'userprofile' %}" class="btn btn-info btn-md">Check Profile</a>
+    </div>
+</section>
+{% endblock %}
