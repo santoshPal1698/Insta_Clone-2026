@@ -1,8 +1,6 @@
 
 import os
-
 from django.contrib.messages import constants as messages
-
 
 # =========================================================
 # BASE DIRECTORY
@@ -11,7 +9,6 @@ from django.contrib.messages import constants as messages
 BASE_DIR = os.path.dirname(
     os.path.dirname(os.path.abspath(__file__))
 )
-
 
 # =========================================================
 # SECURITY SETTINGS
@@ -22,9 +19,11 @@ SECRET_KEY = os.environ.get(
     "django-insecure-change-this-key-for-local-development"
 )
 
-DEBUG = True
+
+DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
 
 ALLOWED_HOSTS = [
+    "spinsta.onrender.com",
     "localhost",
     "127.0.0.1",
 ]
