@@ -1,32 +1,47 @@
 
 import os
 from django.contrib.messages import constants as messages
+from pathlib import Path
+from dotenv import load_dotenv
 
-# =========================================================
-# BASE DIRECTORY
-# =========================================================
+BASE_DIR = Path(__file__).resolve().parent.parent
 
-BASE_DIR = os.path.dirname(
-    os.path.dirname(os.path.abspath(__file__))
-)
+load_dotenv(BASE_DIR / ".env")
+
+SECRET_KEY = os.getenv("SECRET_KEY")
+
+if not SECRET_KEY:
+    raise ValueError("SECRET_KEY is required")
+
+DEBUG = os.getenv("DEBUG", "False").lower() == "true"
+
 
 # =========================================================
 # SECURITY SETTINGS
 # =========================================================
 
-SECRET_KEY = os.environ.get(
-    "DJANGO_SECRET_KEY",
-    "django-insecure-change-this-key-for-local-development"
-)
-
-
-DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
 
 ALLOWED_HOSTS = [
-    "spinsta.onrender.com",
-    "localhost",
-    "127.0.0.1",
+    host.strip()
+    for host in os.getenv("ALLOWED_HOSTS", "").split(",")
+    if host.strip()
 ]
+
+# CSRF_TRUSTED_ORIGINS = [
+#     origin.strip()
+#     for origin in os.getenv(
+#         "CSRF_TRUSTED_ORIGINS", ""
+#     ).split(",")
+#     if origin.strip()
+# ]
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / os.getenv("DB_NAME", "db.sqlite3"),
+    }
+}
+
 
 
 # =========================================================
