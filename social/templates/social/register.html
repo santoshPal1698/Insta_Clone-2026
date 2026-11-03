@@ -1,33 +1,48 @@
-{% extends 'base.html'%}
-{% load static %}
-{% block tittle %} signup page {% endblock %}
+{% extends 'base.html' %}
 {% load crispy_forms_tags %}
-{% block content %}
 {% load static %}
 
-<div class="container-fluid spimg p-5">
-    <div class="container border- border-rounded border-5 shadow-lg p-3 mb-5 spimg2 my-4">
-        <div class=" card col-md-12 m-auto p-5 spimg2">
-            <div class="card-body  ">
-                <div class="">
-                    <div class="login100-form-title" style="background-image: url({% static 'account/images/d.jpg' %});">
-                        <span class="login100-form-title-1">
-                        </span>
-                        <h3 class="text-center text-danger text-uppercase font-weight-bold ml-4">Signup page ? <a href="{% url 'login' %}" style="color:#fff;">Login</a></h3>
-                    </div>
-                    <form method="POST" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        {{ form|crispy }}
-                        <!-- {{profile_form|crispy}} -->
-                        <div class="container-login100-form-btn">
-                            <button class=" btn btn-info ">
-                                Sign Up
-                            </button>
-                        </div>
-                    </form>
+{% block title %}Create account | SP-TECH{% endblock %}
+
+{% block content %}
+<main class="auth-page">
+    <div class="auth-shell container">
+        <aside class="auth-visual" style="background-image: linear-gradient(145deg, rgba(34, 24, 84, .48), rgba(30, 77, 146, .72)), url('{% static 'images/login.jpg' %}');">
+            <a class="auth-brand" href="{% url 'login' %}">SP-<span>TECH</span></a>
+            <div class="auth-visual-copy">
+                <span class="auth-eyebrow">MAKE ROOM FOR CONNECTION</span>
+                <h2>Your next favorite community starts here.</h2>
+                <p>Create an account and share your moments with the people around you.</p>
+            </div>
+            <span class="auth-visual-note">A place for your everyday stories.</span>
+        </aside>
+
+        <section class="auth-panel" aria-labelledby="auth-heading">
+            <div class="auth-panel-inner">
+                <nav class="auth-switch" aria-label="Account options">
+                    <a href="{% url 'login' %}">Log in</a>
+                    <a class="active" href="{% url 'register' %}" aria-current="page">Create account</a>
+                </nav>
+
+                <div class="auth-heading">
+                    <span class="auth-eyebrow">JOIN THE COMMUNITY</span>
+                    <h1 id="auth-heading">Create your account</h1>
+                    <p>It only takes a moment to get started.</p>
+                </div>
+
+                <form method="post" enctype="multipart/form-data" class="auth-form">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <button class="btn auth-submit" type="submit">
+                        Create account <span aria-hidden="true">&rarr;</span>
+                    </button>
+                </form>
+
+                <div class="auth-form-footer">
+                    <p>Already have an account? <a href="{% url 'login' %}">Log in</a></p>
                 </div>
             </div>
-        </div>
+        </section>
     </div>
-</div>
+</main>
 {% endblock %}

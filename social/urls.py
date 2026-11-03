@@ -5,25 +5,22 @@ from social import views
 from django.views.generic.base import RedirectView
 from django.contrib.auth import views as auth_views
 from django.shortcuts import render,redirect
-
 from django.urls import path ,include ,reverse_lazy
 # from loginuser import views
-
 # from django.urls reverse_lazy
 
 
 urlpatterns = [ 
-
     path('home/', views.HomeView.as_view(), name='home'),
-    # path('about/', views.AboutView.as_view(),name='about'),
+    path('about/', views.AboutView.as_view(),name='about'),
     path('register/',views.register,name='register'),
     path('activate/<uidb64>/<token>/',views.activate_account,name='activate'),
     path('confirm/',views.confirm,name='confirm'),
     path('login/',views.user_login,name='login'),
     path('logout/',views.user_logout,name='logout'),
+    path('contact/', views.contact, name='contact'),
     path('userprofile/',views.userprofile,name='userprofile'),
     path('updateprofile/',views.updateprofile,name='updateprofile'),
-    # path('contact/', views.contact, name='contact'),
     path('profile/edit/<int:pk>', views.MyProfileUpdateView.as_view(success_url="/social/home")),
     path('mypost/create/', views.MyPostCreate.as_view(success_url="/social/mypost")),
     path('mypost/delete/<int:pk>', views.MyPostDeleteView.as_view(success_url="/social/mypost")),
@@ -66,4 +63,3 @@ urlpatterns = [
     # path('profile/edit/<int:pk>', views.ProfileUpdateView.as_view(success_url="/college/home")),
 
 ]
-

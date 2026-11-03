@@ -1,19 +1,20 @@
-{% extends 'base.html'%}
-{% block title %} Forgot password ?? {% endblock title %}
+{% extends 'base.html' %}
 {% load crispy_forms_tags %}
-{% load static %}
+{% block title %}Reset password | SP-TECH{% endblock title %}
 {% block content %}
-<section class="container-fluid spimg p-5">
-    <div class="container p-5">
-        <h2 class="text-uppercase text-center font-weight-bold text-white"> Password Reset </h2> <br>
-        <h4 class="text-white font-weight-bold"> Enter your correct email id and after that Forgottan your password? Enter your email
-            address below, and we'll email instructions for setting a new one
-        </h4>
+<main class="account-page">
+    <section class="account-card" aria-labelledby="account-heading">
+        <header class="account-card-heading">
+            <span class="account-card-icon"><i class="fas fa-unlock-alt" aria-hidden="true"></i></span>
+            <h1 id="account-heading">Forgot your password?</h1>
+            <p>Enter the email address associated with your account and we'll send you a link to reset your password.</p>
+        </header>
         <form method="POST">
             {% csrf_token %}
             {{ form|crispy }}
-            <button type="submit" name="Send email" class="btn btn-primary text-white font-weight-bold btn-md">Reset Password</button>
+            <button type="submit" class="account-submit">Send reset link</button>
         </form>
-    </div>
-</section>
+        <a class="account-link" href="{% url 'login' %}">Back to log in</a>
+    </section>
+</main>
 {% endblock %}

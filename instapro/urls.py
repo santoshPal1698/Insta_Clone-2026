@@ -10,7 +10,7 @@ admin.site.site_title = 'PAL SAHAB '
 admin.site.index_title = '??? ... SUPER SPTECH INSTAPRO+ FOR SPTECH PAL .... ???'
 
 urlpatterns = [
-    path('sptech/', admin.site.urls),
+    path('admin/', admin.site.urls),
     path('social/', include('social.urls')), 
     path('', RedirectView.as_view(url="social/")),  
       

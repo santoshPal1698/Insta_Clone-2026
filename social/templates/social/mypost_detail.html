@@ -4,92 +4,87 @@
 {% load humanize %}
 {% load static %}
 
-<a href="/social/mypost" class="btn btn-danger text-center">Back</a>
-<div class=" container-fluid">
-    <div class="container w-100">
-        <h1 class="text-primary font-weight-bold">{{post.subject}}</h1>
-        <h4>
-            <span class="text-warning ml-2 font-weight-bold badge badge-pill badge-danger">{{post.cr_date|naturaltime }}</span></h4>
-        <h5 class="text-right font-weight-bold text-primary">
-            Date:{{post.cr_date | date:"d/m/y"}}</h5>
-        <!-- <hr> -->
-        <div class="row">
-            <center class="card w-100 shadow-lg p-3 mb-5 bg-white rounded">
-                <div class="row container">
+<main class="container-fluid">
+    <section class="container">
+        <a href="/social/mypost/" class="btn btn-dark mb-3"><i class="fas fa-arrow-left mr-2" aria-hidden="true"></i>Back to posts</a>
+        <article class="card p-3 p-md-4 mb-4">
+            <header class="mb-3">
+                <h1>{{post.subject|default:"Untitled post"}}</h1>
+                <p class="text-muted mb-0">{{ post.cr_date|naturaltime }} <span aria-hidden="true">·</span> {{post.cr_date|date:"M j, Y"}}</p>
+            </header>
+                <div class="row no-gutters">
                     {% if post.pic %}
                     <div {% if post.videofile %} class="col-md-8" {% else %} class="col-md-12" {% endif %}>
-                        <img class="img-fluid img-responsive img-thumbnail text-center w-100" src="/media/{{post.pic}}" alt="pic upload" style="width:; height:450px;">
+                        <img class="img-fluid w-100 social-post-media" src="{{post.pic.url}}" alt="Photo for {{ post.subject|default:'this post' }}">
                     </div>
                     {% endif %}
                     {% if post.videofile %}
                     <div {% if post.pic %} class="col-md-4" {% else %} class="col-md-12" {% endif %}>
-                        <video style="height:450px;" class="img-fluid img-responsive img-thumbnail text-center w-100" controls="true">
-                            }
-                            <source src="/media/{{post.videofile}}" type='video/mp4'>
+                        <video class="img-fluid w-100 social-post-media" controls preload="metadata">
+                            <source src="{{post.videofile.url}}" type="video/mp4">
+                            Your browser does not support video playback.
                         </video>
                     </div>
                     {% endif %}
                 </div>
-            </center>
-            <div class="container p-5">
-                <h4 class="text-justify">{{post.msg}}</h4>
-                <br>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- ///////////////comment section start///////////////////// -->
-<section class="container-fluid ">
-    <h1 class="text-gray-dark text-center font-weight-bold">comment()</h1>
-    <div class="container">
-        <form action="/social/mypost/{{post.id}}" method="POST">
-            {{comment_form|crispy}}
-            <!-- {{ comment_form.as_p }} -->
-            {% csrf_token %}
-            <button type="submit" class="btn btn-info btn-md">comment</button>
-        </form>
-        <br>
+                {% if post.msg %}
+                <div class="pt-4">
+                    <p class="mb-0">{{post.msg}}</p>
+                </div>
+                {% endif %}
+        </article>
+
+        <section class="card p-3 p-md-4" aria-labelledby="comments-heading">
+            <h2 id="comments-heading" class="h3 mb-3">Comments</h2>
+            <form action="/social/mypost/{{post.id}}" method="POST" class="mb-4">
+                {% csrf_token %}
+                {{comment_form|crispy}}
+                <button type="submit" class="btn btn-primary">Add comment</button>
+            </form>
         {% for comment in comments %}
-        <div class="row">
-            <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1">
-                <img src="{{request.user.myprofile.pic.url}}" class="img-fluid img-responsive img-thumbnail rounded-circle" alt="user" style="width: 60px; height: 60px;">
+        <article class="social-comment">
+            <div class="d-flex align-items-start">
+                {% if comment.commented_by.pic %}
+                <img src="{{ comment.commented_by.pic.url }}" class="rounded-circle mr-3" alt="" width="42" height="42">
+                {% endif %}
+                <div class="flex-grow-1">
+                    <div class="d-flex flex-wrap align-items-baseline">
+                        <strong>{{comment.commented_by.name}}</strong>
+                        <span class="text-muted small ml-2">{{comment.created|naturaltime }}</span>
+                    </div>
+                    <p class="mb-0">{{comment.body}}</p>
+                </div>
             </div>
-            <div class="col-md-11 col-lg-11 col-sm-11">
-                <b class="text-uppercase text-danger font-weight-bold">{{comment.commented_by.name}}</b>
-                <span class="text-warning ml-2 font-weight-bold badge badge-pill badge-primary">{{comment.created|naturaltime }}</span> <br>
-                <div>{{comment.body}}</div>
-            </div>
-        </div>
+        </article>
         <!-- reply here -->
         {% for replay in comment.replies.all %}
-        <br>
-        <div class="row ml-5">
-            <div class="col-md-1 col-lg-1 col-sm-1">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRI9dPlenIRsg4ygtqVWOSt_QtxbRZtTrA2Hg&usqp=CAU" class="img-fluid img-responsive img-thumbnail rounded-circle" alt="user" style="width: 60px; height: 60px;">
+        <article class="social-comment ml-3 ml-md-5">
+            <div class="d-flex align-items-start">
+                {% if replay.commented_by.pic %}
+                <img src="{{ replay.commented_by.pic.url }}" class="rounded-circle mr-3" alt="" width="42" height="42">
+                {% endif %}
+                <div class="flex-grow-1">
+                    <div class="d-flex flex-wrap align-items-baseline">
+                        <strong>{{ replay.commented_by.name }}</strong>
+                        <span class="text-muted small ml-2">{{replay.created|naturaltime }}</span>
+                    </div>
+                    <p class="mb-0">{{replay.body}}</p>
+                </div>
             </div>
-            <div class="col-md-11 col-lg-11 col-sm-11">
-                <b class="text-uppercase text-danger font-weight-bold">
-                    {{ replay.commented_by.name }}</b>
-                <span class="text-info font-weight-bold badge badge-pill badge-dark">{{replay.created|naturaltime }}</span> <br>
-                <div>{{replay.body}}</div>
-            </div>
-        </div>
-        <br>
+        </article>
         {% endfor %}
-        <button class="btn btn-primary btn-sm ml-5" type="button" data-toggle="collapse" data-target="#{{ comment.id }}" aria-expanded="false" aria-controls="reply" id="#{{ comment.id }}">
+        <button class="btn btn-dark btn-sm ml-3 ml-md-5" type="button" data-toggle="collapse" data-target="#reply-{{ comment.id }}" aria-expanded="false" aria-controls="reply-{{ comment.id }}">
             Reply</button>
-        <form action="/social/mypost/{{post.id}}" class="container collapse" id="{{ comment.id }}" method="POST">
+        <form action="/social/mypost/{{post.id}}" class="collapse mt-3 ml-3 ml-md-5" id="reply-{{ comment.id }}" method="POST">
             {% csrf_token %}
             {{comment_form|crispy}}
-            <!-- Hidden input for parent comment.id -->
             <input type="hidden" name="parent_id" value="{{ comment.id }}">
-            <button type="submit" class="btn btn-danger btn-md">Replay</button>
+            <button type="submit" class="btn btn-primary">Reply</button>
         </form>
-        <hr>
-        <br>
         {% empty %}
-        <h4> No comments Here...</h4>
+        <p class="text-muted">No comments yet. Be the first to join the conversation.</p>
         {% endfor %}
-    </div>
+        </section>
 </section>
+</main>
 {% endblock %}

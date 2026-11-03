@@ -2,33 +2,35 @@
 {% block content %}
 {% load static %}
 
-<section class="container-fluid spimg">
-    <div class="container card bg-light p-5">
-        <h1 class="myhead2">{{myprofile.name}}</h1>
-        <hr>
-        <div class="row m-auto">
-            <div class="col-md-4">
-                <img class="img-fluid img-responsive img-thumbnail w-100" src="/media/{{myprofile.pic}}" style=" height:500px;" />
+<main class="container-fluid">
+    <section class="container">
+        <article class="social-profile-card card">
+            <div class="row align-items-center">
+                <div class="col-md-4 text-center mb-4 mb-md-0">
+                    {% if myprofile.pic.name != 'Download/un.jpg' %}
+                    <img class="social-profile-avatar" src="{{ myprofile.pic.url }}" alt="{{ myprofile.name }}'s profile photo">
+                    {% else %}
+                    <div class="social-profile-avatar social-profile-avatar-placeholder mx-auto" aria-hidden="true">
+                        {{ myprofile.name|default:myprofile.user.username|slice:":1"|upper }}
+                    </div>
+                    {% endif %}
+                    <h2 class="h4 mt-3">{{ myprofile.name|default:myprofile.user.username }}</h2>
+                    <p class="text-muted">@{{ myprofile.user.username }}</p>
+                </div>
+                <div class="col-md-8">
+                    <h1>About this profile</h1>
+                    <dl class="mb-4">
+                        <div class="social-profile-field"><dt>Age</dt><dd>{{ myprofile.age|default:"Not provided" }}</dd></div>
+                        <div class="social-profile-field"><dt>Gender</dt><dd>{{ myprofile.gender|default:"Not provided" }}</dd></div>
+                        <div class="social-profile-field"><dt>Address</dt><dd>{{ myprofile.address|default:"Not provided" }}</dd></div>
+                        <div class="social-profile-field"><dt>Status</dt><dd>{{ myprofile.status|default:"Not provided" }}</dd></div>
+                        <div class="social-profile-field"><dt>Phone</dt><dd>{{ myprofile.phone_no|default:"Not provided" }}</dd></div>
+                        <div class="social-profile-field"><dt>About</dt><dd>{{ myprofile.description|default:"No description added yet." }}</dd></div>
+                    </dl>
+                    <a href="/social/myprofile/" class="btn btn-dark">Back to profiles</a>
+                </div>
             </div>
-            <br>
-            <div class="col-md-8 p-5 text-gray-dark text-uppercase font-weight-bold">
-                <h3><i class="nav-link text-primary  font-weight-bold fa fa-child"></i>AGE: <b class="ml-5">{{myprofile.age}} </b></h3>
-                <hr>
-                <h3> <i class="nav-link text-primary  font-weight-bold 
-		fa fa-venus-double"></i>Gender <b class="ml-5">{{myprofile.gender}}</b> </h3>
-                <hr>
-                <h3><i class="nav-link text-primary  font-weight-bold far fa-home"></i>Adress: <b class="ml-5">{{myprofile.address}}</b></h3>
-                <hr>
-                <h3><i class="nav-link text-primary  font-weight-bold 
-	fa fa-genderless"></i>Status:<b class="ml-5">{{myprofile.status}}</b></h3>
-                <hr>
-                <h3> <i class="nav-link text-primary  font-weight-bold far fa-phone"></i>Number: <b class="ml-5">{{myprofile.phone_no}}</b></h3>
-                <hr>
-                <h3><i class="nav-link text-primary  font-weight-bold fa fa-spinner"></i>Description : <b class="ml-5">{{myprofile.description}}</b></h3>
-                <hr>
-            </div>
-            <a href="/social/myprofile" class="btn btn-dark">Back</a>
-        </div>
-    </div>
-</section>
+        </article>
+    </section>
+</main>
 {% endblock %}

@@ -10,7 +10,7 @@
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v6.0"></script>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
     <!-- Bootstrap CSS -->
-    <link href="/static/css/style.css" rel="stylesheet" />
+    <link href="{% static 'css/style.css' %}?v=20261103-navbar-ui" rel="stylesheet" />
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/fontawesome.css" integrity="sha256-YC896To53D/eet6K3jAwOq67iCIK24u2Hg6CQ+026I8=" crossorigin="anonymous" />
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -23,92 +23,87 @@
     <link href="/static/css/bootstrap.min.css" rel="stylesheet">
     <!-- Material Design Bootstrap -->
     <link href="/static/css/mdb.min.css" rel="stylesheet">
+    <link href="{% static 'css/social-ui.css' %}?v=20261103-social-ui-v3" rel="stylesheet">
+    <link href="{% static 'css/account-ui.css' %}?v=20261103-account-ui" rel="stylesheet">
     <title> {% block title %} {% endblock title %} </title>
 </head>
 
 <body>
     {% if user.is_authenticated %}
-    <nav class="navbar navbar-expand-md navbar-light  mdb-color">
+    <nav class="navbar navbar-expand-lg" id="site-navbar" aria-label="Main navigation">
         <div class="container">
-            <a class="navbar-brand text-white font-weight-bold animated infinite flash" href="/">
-                <h1>
-                    SP-<b class="text-warning font-weight-bold">TECH</b></h1>
+            <a class="navbar-brand" href="{% url 'home' %}" aria-label="SP-TECH home">
+                SP-<span>TECH</span>
             </a>
-            <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"><i class="fas fa-bars" aria-hidden="true"></i></span>
             </button>
             <div class="collapse navbar-collapse" id="collapsibleNavId">
-                <ul class="navbar-nav ml-auto mt-2 mt-lg-0 text-white">
-                    <li class="nav-item active">
-                        <a class="nav-link text-white font-weight-bold far fa-home fa-2x" href="/social/home"> <span class="sr-only">(current)</span></a>
+                <ul class="navbar-nav site-nav-links ml-lg-4">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}">
+                            <i class="fas fa-home" aria-hidden="true"></i><span>Home</span>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white font-weight-bold far fa-user fa-2x" href="/social/about"> </a>
+                        <a class="nav-link" href="/social/mypost/create/">
+                            <i class="fas fa-plus-circle" aria-hidden="true"></i><span>Create post</span>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white font-weight-bold far fa-phone fa-2x" href="/social/contact"></a>
+                        <a class="nav-link" href="/social/myprofile/">
+                            <i class="fas fa-users" aria-hidden="true"></i><span>Discover people</span>
+                        </a>
                     </li>
-                    {% if user.is_authenticated %}
-                    {% else %}
-                    <li class="nav-item">
-                        <a class="text-white font-weight-bold btn btn-dark btn-md " href="/accounts/login"><span class="fa fa-power-off fa-2x text-white"></span></a>
-                    </li>
-                    {% endif %}
-                    {% if user.is_superuser %}
-                    <li class="nav-item">
-                        <!--   <a class="nav-link text-white font-weight-bold" href="/admin">Welcome: {{request.user}}</a> -->
-                        <img style="width: 60px; height: 60px;" class="img-fluid rounded-circle img-responsive img-thumbnail ml-3" src="{{request.user.myprofile.pic.url}}" />
-                    </li>
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle text-text-uppercase text-white font-weight-bold" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Welcome: {{request.user}}
-                        </button>
-                        <div class="dropdown-menu text-danger" aria-labelledby="dropdownMenuButton">
-                            {% if user.is_authenticated %}
-                            <li class="nav-item">
-                                <a class="nav-link text-primary font-weight-bold text-uppercase" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt fa-2x text-primary"></i>Logout</a>
-                            </li>
+                </ul>
+
+                <ul class="navbar-nav ml-lg-auto">
+                    <li class="nav-item dropdown site-account">
+                        <button class="nav-link site-account-toggle dropdown-toggle" id="accountMenu" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {% if user.is_superuser %}
+                            <span class="site-avatar">{{ user.username|slice:":1"|upper }}</span>
+                            {% elif user.myprofile.pic.name == 'Download/un.jpg' %}
+                            <span class="site-avatar">{{ user.myprofile.name|default:user.username|slice:":1"|upper }}</span>
                             {% else %}
+                            <img class="site-avatar" src="{{ user.myprofile.pic.url }}" alt="">
                             {% endif %}
-                            <a class="dropdown-item  text-primary text-uppercase  font-weight-bold" href="/social/change_password/">
-                                <i class="fas fa-key fa-2x text-primary"></i> change password</a>
-                            <a class="nav-link text-primary font-weight-bold text-uppercase" href=" {% url 'reset_password' %}"><i class="fas fa-unlock fa-2x text-primary"></i> Forgot password</a>
-                            <a class="nav-link text-primary font-weight-bold text-uppercase" href="/social/mypost"><i class="fas fa-user fa-2x text-primary"></i> My Posts</a>
-                            <a class="nav-link text-primary font-weight-bold text-uppercase" href="/social/myprofile"><i class="fas fa-street-view fa-2x text-primary"></i> Profiles</a>
-                            <a class="nav-link text-primary font-weight-bold text-uppercase" href="/social/profile/edit/{{ user.myprofile.id }}"><i class="fas fa-user-edit fa-2x text-primary"></i> Edit Profile</a>
-                        </div>
-                    </div>
-                    {% else %}
-                    {% if user.is_authenticated %}
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle font-weight-bold text-white" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Hi:{{request.user.myprofile.name}}
-                            <!-- Login User -->
+                            <span class="site-account-name">{% if user.is_superuser %}{{ user.username }}{% else %}{{ user.myprofile.name|default:user.username }}{% endif %}</span>
                         </button>
-                        <div class="dropdown-menu text-danger" aria-labelledby="dropdownMenuButton">
-                            {% if user.is_authenticated %}
-                            <li class="nav-item">
-                                <!--              <a class="dropdown-item  text-primary text-uppercase  font-weight-bold" 
-                 href="#">
-            <i class="fas fa-user fa-2x text-primary"></i>
-    WELCOME:{{request.user.myprofile.name}}
-              </a>
- -->
-                                <a class="nav-link text-primary font-weight-bold text-uppercase" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt fa-2x text-primary"></i>Logout</a>
-                            </li>
+                        <div class="dropdown-menu dropdown-menu-right site-account-menu" aria-labelledby="accountMenu">
+                            <div class="site-menu-heading">
+                                <span class="site-menu-title">Your account</span>
+                                <span class="site-menu-subtitle">Signed in as {{ user.username }}</span>
+                            </div>
+                            {% if user.is_superuser %}
+                            <a class="dropdown-item" href="/admin/">
+                                <i class="fas fa-shield-alt" aria-hidden="true"></i> Admin dashboard
+                            </a>
                             {% else %}
+                            <a class="dropdown-item" href="/social/profile/edit/{{ user.myprofile.id }}">
+                                <i class="fas fa-user-edit" aria-hidden="true"></i> Edit profile
+                            </a>
                             {% endif %}
-                            <a class="dropdown-item  text-primary text-uppercase  font-weight-bold" href="/social/change_password/">
-                                <i class="fas fa-key fa-2x text-primary"></i> change password</a>
-                            <a class="nav-link text-primary font-weight-bold text-uppercase" href=" {% url 'reset_password' %}"><i class="fas fa-unlock fa-2x text-primary"></i> reset password</a>
-                            <a class="nav-link text-primary font-weight-bold text-uppercase" href="/social/mypost"><i class="fas fa-user fa-2x text-primary"></i> My Posts</a>
-                            <a class="nav-link text-primary font-weight-bold text-uppercase" href="/social/myprofile"><i class="fas fa-street-view fa-2x text-primary"></i> Profiles</a>
-                            <a class="nav-link text-primary font-weight-bold text-uppercase" href="/social/profile/edit/{{ user.myprofile.id }}"><i class="fas fa-user-edit fa-2x text-primary"></i> Edit Profile</a>
+                            <a class="dropdown-item" href="/social/mypost/">
+                                <i class="fas fa-images" aria-hidden="true"></i> My posts
+                            </a>
+                            {% if not user.is_superuser %}
+                            <a class="dropdown-item" href="/social/myprofile/">
+                                <i class="fas fa-user-friends" aria-hidden="true"></i> Browse profiles
+                            </a>
+                            {% endif %}
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'change_password' %}">
+                                <i class="fas fa-key" aria-hidden="true"></i> Change password
+                            </a>
+                            <a class="dropdown-item" href="{% url 'reset_password' %}">
+                                <i class="fas fa-unlock-alt" aria-hidden="true"></i> Reset password
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item site-logout" href="{% url 'logout' %}">
+                                <i class="fas fa-sign-out-alt" aria-hidden="true"></i> Log out
+                            </a>
                         </div>
-                        <img style="width: 60px; height: 60px;" class="img-fluid rounded-circle img-responsive img-thumbnail ml-3" src="{{request.user.myprofile.pic.url}}" />
-                    </div>
-                    {% endif %}
-                    {% endif %}
+                    </li>
                 </ul>
             </div>
             <!-- {{request.user.myprofile.name}} -->
@@ -124,56 +119,40 @@
         </button>
     </div>
     {% endfor %}
-    {% block content %}
-    {% endblock %}
+    <div class="social-page-content">
+        {% block content %}
+        {% endblock %}
+    </div>
     {% if user.is_authenticated %}
     {% block footer %}
     <!-- Footer -->
-    <section class="container-fluid  mdb-color p-5">
-        <footer class="page-footer font-small mdb-color ">
-            <!-- Grid row -->
-            <div class="row d-flex align-items-center">
-                <!-- Grid column -->
-                <div class="col-md-7 col-lg-8">
-                    <!--Copyright-->
-                    <h5 class="text-center text-md-left">SPTECHPOST@2019 Copyright:
-                        <a href="/" class="text-warning text-capitalize"> <br>
-                            <h4 > Sptechpblogpost.com</h4>
-                    </h5>
-                    </p>
+    <footer class="site-footer">
+        <div class="container">
+            <div class="site-footer-main">
+                <div class="site-footer-brand">
+                    <a class="site-footer-logo" href="{% url 'home' %}">SP-<span>TECH</span></a>
+                    <p>A place to share your moments and stay connected with your community.</p>
                 </div>
-                <!-- Grid column -->
-                <!-- Grid column -->
-                <div class="col-md-5 col-lg-4 ml-lg-0">
-                    <!-- Social buttons -->
-                    <div class="text-center text-md-right">
-                        <ul class="list-unstyled list-inline">
-                            <li class="list-inline-item">
-                                <a class="btn-floating btn-sm rgba-white-slight mx-1 " href="https://www.facebook.com/">
-                                    <i class="fab fa-facebook-f fa-2x"></i>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a class="btn-floating btn-sm rgba-white-slight mx-1" href="https://twitter.com/login">
-                                    <i class="fab fa-twitter fa-2x "></i>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a class="btn-floating btn-sm rgba-white-slight mx-1" href="https://account.google.com
-">
-                                    <i class="fab fa-google-plus-g fa-2x "></i>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a class="btn-floating btn-sm rgba-white-slight mx-1" href="https://github.com ">
-                                    <i class="fab fa-github fa-2x"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-        </footer>
-    </section>
-    <!-- Footer -->
+                <nav class="site-footer-links" aria-label="Footer navigation">
+                    <h2>Explore</h2>
+                    <a href="{% url 'home' %}">Home</a>
+                    <a href="/social/mypost/create/">Create a post</a>
+                    <a href="/social/mypost/">My posts</a>
+                    <a href="/social/myprofile/">Discover people</a>
+                </nav>
+                <nav class="site-footer-links" aria-label="Account links">
+                    <h2>Your account</h2>
+                    <a href="{% url 'change_password' %}">Change password</a>
+                    <a href="{% url 'reset_password' %}">Reset password</a>
+                    <a href="{% url 'logout' %}">Log out</a>
+                </nav>
+            </div>
+            <div class="site-footer-bottom">
+                <span>&copy; {% now "Y" %} SP-TECH. All rights reserved.</span>
+                <span>Made for sharing moments.</span>
+            </div>
+        </div>
+    </footer>
     {% endblock %}
     {% endif %}
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>

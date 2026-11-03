@@ -1,55 +1,37 @@
 {% extends 'base.html'%}
-{% block tittle %}
-user profile
-{% endblock %}
+{% block title %}My profile | SP-TECH{% endblock %}
 {% load static %}
 {% block content %}
-<h1 class="text-primary font-weight-bold text-center text-uppercase">user profile page</h1>
-<br>
+<main class="container-fluid">
 <section class="container">
-    <div class="row  p-5">
-        <div class="col-md-4 ">
-            <img src="{{ request.user.profile.profile_pic.url }}" class="img-thumbnail img-responsive img-fluid rounded-circle" /> <br> <br>
-            <h5 class="text-success font-weight-bold text-uppercase"> user:{{ request.user.username }}</h5>
-        </div>
-        <div class="col-md-8 ">
-            <div class="row">
-                <div class="col-md-10">
-                    <label for="Email1">first name</label>
-                    <h3>{{ request.user.profile.first_name }}</h3>
+    {% with profile=request.user.myprofile %}
+    <div class="social-profile-card card">
+        <div class="row align-items-center">
+            <div class="col-md-4 text-center mb-4 mb-md-0">
+                {% if profile.pic.name != 'Download/un.jpg' %}
+                <img src="{{ profile.pic.url }}" class="social-profile-avatar" alt="{{ profile.name }}'s profile photo">
+                {% else %}
+                <div class="social-profile-avatar social-profile-avatar-placeholder mx-auto" aria-hidden="true">
+                    {{ profile.name|default:request.user.username|slice:":1"|upper }}
                 </div>
-                <hr style="background-color: red; width: 100%; height: 3px;">
-                <div class="col-md-12 ">
-                    <label for="Email1">Last name</label>
-                    <h3>{{ request.user.profile.last_name }}</h3>
-                </div>
-                <hr style="background-color: red; width: 100%; height: 3px;">
-                <div class="col-md-12">
-                    <label for="Email1">Gender</label>
-                    <h3>{{ request.user.profile.gender }}</h3>
-                </div>
-                <hr style="background-color: red; width: 100%; height: 3px;">
-                <div class="col-md-12">
-                    <label for="Email1">Date of birth</label>
-                    <h3>{{ request.user.profile.birth_date }}</h3>
-                </div>
-                <hr style="background-color: red; width: 100%; height: 3px;">
-                <div class="col-md-12">
-                    <label for="Email1">Email address</label>
-                    <h3>{{ request.user.profile.email }}</h3>
-                </div>
-                <hr style="background-color: red; width: 100%; height: 3px;">
-                <div class="col-md-12 ">
-                    <label for="Email1">Mobile Number</label>
-                    <h3>{{ request.user.profile.phone_number }}</h3>
-                </div>
+                {% endif %}
+                <h2 class="h5 mt-3 mb-1">{{ profile.name|default:request.user.username }} {{ profile.last_name }}</h2>
+                <p class="text-muted">@{{ request.user.username }}</p>
+            </div>
+            <div class="col-md-8">
+                <h1>My profile</h1>
+                <dl class="mb-4">
+                    <div class="social-profile-field"><dt>Gender</dt><dd>{{ profile.gender|default:"Not provided" }}</dd></div>
+                    <div class="social-profile-field"><dt>Age</dt><dd>{{ profile.age|default:"Not provided" }}</dd></div>
+                    <div class="social-profile-field"><dt>Phone number</dt><dd>{{ profile.phone_no|default:"Not provided" }}</dd></div>
+                    <div class="social-profile-field"><dt>Address</dt><dd>{{ profile.address|default:"Not provided" }}</dd></div>
+                    <div class="social-profile-field"><dt>About me</dt><dd>{{ profile.description|default:"Add a short bio to tell people about yourself." }}</dd></div>
+                </dl>
+                <a href="{% url 'updateprofile' %}" class="btn btn-primary">Edit profile</a>
             </div>
         </div>
     </div>
-    </div>
-    <hr>
-    <center>
-        <a href="{% url 'updateprofile' %}" class="btn btn-danger btn-md text-uppercase">upadate Profile</a>
-    </center>
+    {% endwith %}
 </section>
+</main>
 {% endblock %}

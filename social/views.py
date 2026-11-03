@@ -120,13 +120,15 @@ def userprofile(request):
 
 
 def updateprofile(request):
-    form = updateform(instance=request.user.myprofile)
-    if request.method=='POST':
-        form = updateform(request.POST,request.FILES,instance=request.user.profile)
-        if form.is_valid:
-            print('form is valid')
+    profile = request.user.myprofile
+    if request.method == 'POST':
+        form = updateform(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
             form.save()
-    return render(request, 'social/updateprofile.html',{'form':form})    
+            return redirect('userprofile')
+    else:
+        form = updateform(instance=profile)
+    return render(request, 'social/updateprofile.html', {'form': form})
 
 
 @unauthenticated_user

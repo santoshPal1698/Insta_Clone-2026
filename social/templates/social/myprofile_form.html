@@ -3,18 +3,15 @@
 {% load crispy_forms_tags %}
 {% load static %}
 
-<main class="container-fluid spimg">
-    <div class="row">
-        <div class="container ">
-            <br>
-            <h1 class="text-white text-center font-weight-bold">Profile Update</h1>
-            <hr style="width: 100%; height: 3px; background-color: red;">
+<main class="container-fluid">
+    <div class="container social-form-card card">
+            <h1>Update your profile</h1>
+            <p class="text-muted">Make changes to your public profile information.</p>
             <form enctype="multipart/form-data" method="post">
                 {% csrf_token %}
                 {{form|crispy}}
-                <input class="btn btn-danger my-3" type="submit" />
+                <button class="btn btn-primary my-3" type="submit">Save changes</button>
             </form>
-        </div>
     </div>
 </main>
 {% endblock %}
