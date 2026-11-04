@@ -5,6 +5,8 @@ from django.core.validators import MinValueValidator, RegexValidator
 from django_fields import DefaultStaticImageField
 from django.dispatch import receiver
 from django.db.models.signals import post_save
+from cloudinary_storage.storage import MediaCloudinaryStorage
+from cloudinary_storage.storage import VideoMediaCloudinaryStorage
 
 
 class Cont(models.Model):
@@ -36,7 +38,10 @@ class MyProfile(models.Model):
     gender = models.CharField(max_length=20, default="female", choices=(("male","male"), ("female","female")))
     phone_no = models.CharField(validators=[RegexValidator("^0?[5-9]{1}\d{9}$")], max_length=15, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
-    pic = DefaultStaticImageField(upload_to = "Download\\",blank=True, 
+    pic = DefaultStaticImageField(
+        upload_to="Download/",
+        storage=MediaCloudinaryStorage(),
+        blank=True,
         default='Download/un.jpg')
 
 # profile signup  add 
@@ -69,9 +74,20 @@ def save_user_profile(sender,instance,created,**kwargs):
     
 
 class MyPost(models.Model):
-    pic=models.ImageField(upload_to = "images\\", null=True ,blank=True)
+    pic = models.ImageField(
+        upload_to="images/",
+        storage=MediaCloudinaryStorage(),
+        null=True,
+        blank=True,
+    )
     subject = models.CharField(max_length = 200)
-    videofile= models.FileField(upload_to='videos/', null=True, verbose_name="videofile",blank=True)
+    videofile = models.FileField(
+        upload_to="videos/",
+        storage=VideoMediaCloudinaryStorage(),
+        null=True,
+        verbose_name="videofile",
+        blank=True,
+    )
     msg = models.TextField(null=True, blank=True)
     cr_date = models.DateTimeField(auto_now_add=True)
     uploaded_by = models.ForeignKey(to=MyProfile, on_delete=CASCADE, null=True, blank=True)

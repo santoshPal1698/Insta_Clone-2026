@@ -6,7 +6,6 @@
 
 <main class="feed-page">
     <header class="feed-header">
-        <!-- <h1 class="feed-title">Explore</h1> -->
         <a class="feed-create" href="/social/mypost/create">
             <i class="fas fa-plus mr-1" aria-hidden="true"></i> Create post
         </a>
@@ -19,7 +18,7 @@
     {% for n1 in mypost_list %}
     <article class="feed-card">
         <header class="feed-card-header">
-            {% if n1.uploaded_by.pic %}
+            {% if n1.uploaded_by.pic and n1.uploaded_by.pic.name != 'Download/un.jpg' %}
             <img class="feed-avatar" src="{{ n1.uploaded_by.pic.url }}" alt="{{ n1.uploaded_by }}'s profile">
             {% else %}
             <span class="feed-avatar-placeholder" aria-hidden="true">
@@ -33,29 +32,50 @@
             </div>
         </header>
 
-        {% if n1.pic or n1.videofile %}
-        <div class="row no-gutters">
+        {% if n1.pic and n1.videofile %}
+        <div id="post-media-{{ n1.id }}" class="carousel slide feed-carousel" data-ride="carousel" data-interval="false" aria-label="Photos and videos for {{ n1.subject|default:'this post' }}">
+            <ol class="carousel-indicators">
+                <li data-target="#post-media-{{ n1.id }}" data-slide-to="0" class="active" aria-label="Show photo">
+                    <i class="far fa-image" aria-hidden="true"></i><span>Photo</span>
+                </li>
+                <li data-target="#post-media-{{ n1.id }}" data-slide-to="1" aria-label="Show video">
+                    <i class="fas fa-video" aria-hidden="true"></i><span>Video</span>
+                </li>
+            </ol>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="feed-media">
+                        <img src="{{ n1.pic.url }}" alt="Photo posted by {{ n1.uploaded_by }}" loading="lazy" decoding="async">
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="feed-media">
+                        <video src="{{ n1.videofile.url }}" controls preload="metadata" playsinline>
+                            Your browser does not support video playback.
+                        </video>
+                    </div>
+                </div>
+            </div>
+            <a class="carousel-control-prev" href="#post-media-{{ n1.id }}" role="button" data-slide="prev" aria-label="Show previous media">
+                <span class="feed-carousel-arrow" aria-hidden="true"><i class="fas fa-chevron-left"></i></span>
+            </a>
+            <a class="carousel-control-next" href="#post-media-{{ n1.id }}" role="button" data-slide="next" aria-label="Show next media">
+                <span class="feed-carousel-arrow" aria-hidden="true"><i class="fas fa-chevron-right"></i></span>
+            </a>
+        </div>
+        {% elif n1.pic or n1.videofile %}
+        <div class="feed-media feed-media-single">
             {% if n1.pic %}
-            <div class="{% if n1.videofile %}col-md-8{% else %}col-12{% endif %}">
-                <div class="feed-media">
-                    <img src="{{ n1.pic.url }}" alt="Photo posted by {{ n1.uploaded_by }}" loading="lazy" decoding="async">
-                </div>
-            </div>
-            {% endif %}
-            {% if n1.videofile %}
-            <div class="{% if n1.pic %}col-md-4{% else %}col-12{% endif %}">
-                <div class="feed-media">
-                    <video controls preload="metadata" playsinline>
-                        <source src="{{ n1.videofile.url }}" type="video/mp4">
-                        Your browser does not support video playback.
-                    </video>
-                </div>
-            </div>
+            <img src="{{ n1.pic.url }}" alt="Photo posted by {{ n1.uploaded_by }}" loading="lazy" decoding="async">
+            {% else %}
+            <video src="{{ n1.videofile.url }}" controls preload="metadata" playsinline>
+                Your browser does not support video playback.
+            </video>
             {% endif %}
         </div>
         {% endif %}
 
-        <div class="feed-actions" id="like-section">
+        <div class="feed-actions">
             {% include 'social/like_section.html' %}
             <a class="feed-action" href="/social/mypost/{{ n1.id }}" aria-label="View comments">
                 <i class="far fa-comment" aria-hidden="true"></i>
@@ -63,8 +83,14 @@
             <a class="feed-action" href="http://wa.me/8839102688" aria-label="Share on WhatsApp">
                 <i class="fab fa-whatsapp" aria-hidden="true"></i>
             </a>
+            {% if user.is_authenticated and n1.uploaded_by.user_id == user.id %}
+
+            <a class="feed-action feed-edit-action ml-auto" href="{% url 'mypost_edit' n1.id %}" aria-label="Edit your post">
+                <i class="fas fa-edit" aria-hidden="true"></i><span></span>
+            </a>
+            {% endif %}
             {% if user.is_superuser %}
-            <a class="feed-action ml-auto" href="/social/mypost/delete/{{ n1.id }}" aria-label="Delete post">
+            <a class="feed-action feed-delete-action {% if not n1.uploaded_by.user_id == user.id %}ml-auto{% endif %}" href="/social/mypost/delete/{{ n1.id }}" aria-label="Delete post">
                 <i class="fas fa-trash" aria-hidden="true"></i>
             </a>
             {% endif %}
@@ -75,4 +101,22 @@
     <p class="feed-empty">No posts found. Try another search or check back later.</p>
     {% endfor %}
 </main>
+{% endblock %}
+
+{% block js %}
+<script>
+    $('.feed-carousel').on('slide.bs.carousel', function () {
+        $(this).find('video').each(function () {
+            this.pause();
+        });
+    });
+
+    $(document).on('click', '.feed-like-button', function () {
+        $(this).addClass('is-animating');
+        var button = this;
+        window.setTimeout(function () {
+            $(button).removeClass('is-animating');
+        }, 650);
+    });
+</script>
 {% endblock %}

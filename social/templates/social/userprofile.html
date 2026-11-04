@@ -1,37 +1,78 @@
-{% extends 'base.html'%}
+{% extends 'base.html' %}
 {% block title %}My profile | SP-INSTA{% endblock %}
 {% load static %}
 {% block content %}
-<main class="container-fluid">
-<section class="container">
-    {% with profile=request.user.myprofile %}
-    <div class="social-profile-card card">
-        <div class="row align-items-center">
-            <div class="col-md-4 text-center mb-4 mb-md-0">
-                {% if profile.pic.name != 'Download/un.jpg' %}
-                <img src="{{ profile.pic.url }}" class="social-profile-avatar" alt="{{ profile.name }}'s profile photo">
-                {% else %}
-                <div class="social-profile-avatar social-profile-avatar-placeholder mx-auto" aria-hidden="true">
-                    {{ profile.name|default:request.user.username|slice:":1"|upper }}
+{% with profile=request.user.myprofile %}
+<main class="social-profile-page">
+    <section class="social-profile-shell">
+        <header class="social-profile-banner">
+            <div class="social-profile-banner-orb social-profile-banner-orb-one"></div>
+            <div class="social-profile-banner-orb social-profile-banner-orb-two"></div>
+            <span class="social-profile-banner-label"><i class="fas fa-star" aria-hidden="true"></i> Your space</span>
+        </header>
+
+        <article class="social-profile-panel">
+            <div class="social-profile-hero">
+                <div class="social-profile-avatar-wrap">
+                    {% if profile.pic and profile.pic.name != 'Download/un.jpg' %}
+                    <img src="{{ profile.pic.url }}" class="social-profile-avatar" alt="{{ profile.name|default:request.user.username }}'s profile photo">
+                    {% else %}
+                    <div class="social-profile-avatar social-profile-avatar-placeholder" aria-hidden="true">
+                        {{ profile.name|default:request.user.username|slice:":1"|upper }}
+                    </div>
+                    {% endif %}
+                    <span class="social-profile-online-dot" aria-hidden="true"></span>
                 </div>
-                {% endif %}
-                <h2 class="h5 mt-3 mb-1">{{ profile.name|default:request.user.username }} {{ profile.last_name }}</h2>
-                <p class="text-muted">@{{ request.user.username }}</p>
+                <div class="social-profile-identity">
+                    <span class="social-profile-eyebrow">Instagram profile</span>
+                    <h1>{{ profile.name|default:request.user.username }}{% if profile.last_name %} {{ profile.last_name }}{% endif %}</h1>
+                    <p class="social-profile-handle">@{{ request.user.username }}</p>
+                    <p class="social-profile-bio">{{ profile.description|default:"Add a short bio to tell people about yourself." }}</p>
+                    <div class="social-profile-hero-actions">
+                        <a href="{% url 'updateprofile' %}" class="social-profile-edit-btn">
+                            <i class="fas fa-pen" aria-hidden="true"></i> Edit profile
+                        </a>
+                        <a href="{% url 'mypost_list' %}" class="social-profile-posts-btn">
+                            <i class="far fa-images" aria-hidden="true"></i> My posts
+                        </a>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-8">
-                <h1>My profile</h1>
-                <dl class="mb-4">
-                    <div class="social-profile-field"><dt>Gender</dt><dd>{{ profile.gender|default:"Not provided" }}</dd></div>
-                    <div class="social-profile-field"><dt>Age</dt><dd>{{ profile.age|default:"Not provided" }}</dd></div>
-                    <div class="social-profile-field"><dt>Phone number</dt><dd>{{ profile.phone_no|default:"Not provided" }}</dd></div>
-                    <div class="social-profile-field"><dt>Address</dt><dd>{{ profile.address|default:"Not provided" }}</dd></div>
-                    <div class="social-profile-field"><dt>About me</dt><dd>{{ profile.description|default:"Add a short bio to tell people about yourself." }}</dd></div>
+
+            <div class="social-profile-details">
+                <div class="social-profile-section-heading">
+                    <span class="social-profile-section-icon"><i class="fas fa-user-circle" aria-hidden="true"></i></span>
+                    <div><h2>About you</h2><p>Your profile details</p></div>
+                </div>
+                <dl class="social-profile-fields">
+                    <div class="social-profile-field">
+                        <dt><i class="fas fa-venus-mars" aria-hidden="true"></i> Gender</dt>
+                        <dd>{{ profile.gender|default:"Not provided" }}</dd>
+                    </div>
+                    <div class="social-profile-field">
+                        <dt><i class="fas fa-birthday-cake" aria-hidden="true"></i> Age</dt>
+                        <dd>{{ profile.age|default:"Not provided" }}</dd>
+                    </div>
+                    <div class="social-profile-field">
+                        <dt><i class="fas fa-phone-alt" aria-hidden="true"></i> Phone number</dt>
+                        <dd>{{ profile.phone_no|default:"Not provided" }}</dd>
+                    </div>
+                    <div class="social-profile-field">
+                        <dt><i class="fas fa-map-marker-alt" aria-hidden="true"></i> Address</dt>
+                        <dd>{{ profile.address|default:"Not provided" }}</dd>
+                    </div>
+                    <div class="social-profile-field social-profile-field-wide">
+                        <dt><i class="far fa-comment-dots" aria-hidden="true"></i> About me</dt>
+                        <dd>{{ profile.description|default:"Add a short bio to tell people about yourself." }}</dd>
+                    </div>
                 </dl>
-                <a href="{% url 'updateprofile' %}" class="btn btn-primary">Edit profile</a>
+                <div class="social-profile-user-id">
+                    <span><i class="fas fa-fingerprint" aria-hidden="true"></i> Account ID</span>
+                    <strong>{{ request.user.id }}</strong>
+                </div>
             </div>
-        </div>
-    </div>
-    {% endwith %}
-</section>
+        </article>
+    </section>
 </main>
+{% endwith %}
 {% endblock %}

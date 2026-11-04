@@ -4,47 +4,110 @@
 {% load humanize %}
 {% load static %}
 
-<main class="container-fluid">
-    <section class="container">
-        <a href="/social/mypost/" class="btn btn-dark mb-3"><i class="fas fa-arrow-left mr-2" aria-hidden="true"></i>Back to posts</a>
-        <article class="card p-3 p-md-4 mb-4">
-            <header class="mb-3">
-                <h1>{{post.subject|default:"Untitled post"}}</h1>
-                <p class="text-muted mb-0">{{ post.cr_date|naturaltime }} <span aria-hidden="true">·</span> {{post.cr_date|date:"M j, Y"}}</p>
-            </header>
-                <div class="row no-gutters">
-                    {% if post.pic %}
-                    <div {% if post.videofile %} class="col-md-8" {% else %} class="col-md-12" {% endif %}>
-                        <img class="img-fluid w-100 social-post-media" src="{{post.pic.url}}" alt="Photo for {{ post.subject|default:'this post' }}">
-                    </div>
+<main class="social-post-detail-page">
+    <section class="social-post-detail">
+        <a href="/social/mypost/" class="social-detail-back"><i class="fas fa-arrow-left" aria-hidden="true"></i><span>Back to posts</span></a>
+        <article class="social-detail-card">
+            <header class="social-detail-header">
+                <div class="social-detail-author">
+                    {% if post.uploaded_by.pic and post.uploaded_by.pic.name != 'Download/un.jpg' %}
+                    <img class="social-detail-avatar" src="{{ post.uploaded_by.pic.url }}" alt="{{ post.uploaded_by }}'s profile">
+                    {% else %}
+                    <span class="social-detail-avatar-placeholder" aria-hidden="true"><i class="fas fa-user"></i></span>
                     {% endif %}
-                    {% if post.videofile %}
-                    <div {% if post.pic %} class="col-md-4" {% else %} class="col-md-12" {% endif %}>
-                        <video class="img-fluid w-100 social-post-media" controls preload="metadata">
-                            <source src="{{post.videofile.url}}" type="video/mp4">
-                            Your browser does not support video playback.
-                        </video>
+                    <div class="social-detail-author-info">
+                        <strong>{{ post.uploaded_by }}</strong>
+                        <time datetime="{{ post.cr_date|date:'c' }}">{{ post.cr_date|naturaltime }}</time>
                     </div>
-                    {% endif %}
                 </div>
-                {% if post.msg %}
-                <div class="pt-4">
-                    <p class="mb-0">{{post.msg}}</p>
-                </div>
+                {% if user.is_authenticated and post.uploaded_by.user_id == user.id %}
+                <a class="social-detail-edit" href="{% url 'mypost_edit' post.pk %}" aria-label="Edit post">
+                    <i class="fas fa-edit" aria-hidden="true"></i><span>Edit</span>
+                </a>
                 {% endif %}
+            </header>
+
+            {% if post.pic and post.videofile %}
+            <div id="detail-media-{{ post.pk }}" class="carousel slide social-detail-carousel" data-ride="carousel" data-interval="false" aria-label="Photo and video for {{ post.subject|default:'this post' }}">
+                <ol class="carousel-indicators">
+                    <li data-target="#detail-media-{{ post.pk }}" data-slide-to="0" class="active" aria-label="Show photo">
+                        <i class="far fa-image" aria-hidden="true"></i><span>Photo</span>
+                    </li>
+                    <li data-target="#detail-media-{{ post.pk }}" data-slide-to="1" aria-label="Show video">
+                        <i class="fas fa-video" aria-hidden="true"></i><span>Video</span>
+                    </li>
+                </ol>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="social-detail-media">
+                            <img src="{{ post.pic.url }}" alt="Photo for {{ post.subject|default:'this post' }}" decoding="async">
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="social-detail-media">
+                            <video src="{{ post.videofile.url }}" controls preload="metadata" playsinline>
+                                Your browser does not support video playback.
+                            </video>
+                        </div>
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#detail-media-{{ post.pk }}" role="button" data-slide="prev" aria-label="Show previous media">
+                    <span class="social-detail-arrow" aria-hidden="true"><i class="fas fa-chevron-left"></i></span>
+                </a>
+                <a class="carousel-control-next" href="#detail-media-{{ post.pk }}" role="button" data-slide="next" aria-label="Show next media">
+                    <span class="social-detail-arrow" aria-hidden="true"><i class="fas fa-chevron-right"></i></span>
+                </a>
+            </div>
+            {% elif post.pic %}
+            <div class="social-detail-media social-detail-media-single">
+                <img src="{{ post.pic.url }}" alt="Photo for {{ post.subject|default:'this post' }}" decoding="async">
+            </div>
+            {% elif post.videofile %}
+            <div class="social-detail-media social-detail-media-single">
+                <video src="{{ post.videofile.url }}" controls preload="metadata" playsinline>
+                    Your browser does not support video playback.
+                </video>
+            </div>
+            {% endif %}
+
+            <div class="social-detail-actions">
+                {% if user.is_authenticated %}
+                    {% if liked %}
+                    <a class="social-detail-like feed-like-button is-liked" href="/social/mypost/unlike/{{ post.pk }}" id="unlike" data-unlike_id="{{ post.pk }}" aria-label="Unlike post" aria-pressed="true">
+                        <i class="fas fa-heart" aria-hidden="true"></i>
+                    </a>
+                    {% else %}
+                    <a class="social-detail-like feed-like-button" href="/social/mypost/like/{{ post.pk }}" id="likesp" data-like_id="{{ post.pk }}" aria-label="Like post" aria-pressed="false">
+                        <i class="far fa-heart" aria-hidden="true"></i>
+                    </a>
+                    {% endif %}
+                {% else %}
+                <span class="social-detail-like social-detail-like-static" aria-hidden="true"><i class="far fa-heart"></i></span>
+                {% endif %}
+                <span class="social-detail-like-count"><strong>{{ like_count }}</strong> like{{ like_count|pluralize }}</span>
+            </div>
+
+            <div class="social-detail-caption">
+                {% if post.subject %}<h1>{{ post.subject }}</h1>{% endif %}
+                {% if post.msg %}<p>{{ post.msg }}</p>{% endif %}
+                <time datetime="{{ post.cr_date|date:'c' }}">{{ post.cr_date|date:"M j, Y" }}</time>
+            </div>
         </article>
 
-        <section class="card p-3 p-md-4" aria-labelledby="comments-heading">
-            <h2 id="comments-heading" class="h3 mb-3">Comments</h2>
-            <form action="/social/mypost/{{post.id}}" method="POST" class="mb-4">
+        <section class="social-detail-comments" aria-labelledby="comments-heading">
+            <div class="social-detail-comments-heading">
+                <span class="social-detail-comments-icon"><i class="far fa-comments" aria-hidden="true"></i></span>
+                <div><h2 id="comments-heading">Conversation</h2><p>Join the conversation on this post.</p></div>
+            </div>
+            <form action="/social/mypost/{{post.id}}" method="POST" class="social-detail-comment-form">
                 {% csrf_token %}
                 {{comment_form|crispy}}
-                <button type="submit" class="btn btn-primary">Add comment</button>
+                <button type="submit" class="btn btn-primary"><i class="far fa-paper-plane mr-2" aria-hidden="true"></i>Add comment</button>
             </form>
         {% for comment in comments %}
-        <article class="social-comment">
+        <article class="social-comment social-detail-comment">
             <div class="d-flex align-items-start">
-                {% if comment.commented_by.pic %}
+                {% if comment.commented_by.pic and comment.commented_by.pic.name != 'Download/un.jpg' %}
                 <img src="{{ comment.commented_by.pic.url }}" class="rounded-circle mr-3" alt="" width="42" height="42">
                 {% endif %}
                 <div class="flex-grow-1">
@@ -58,9 +121,9 @@
         </article>
         <!-- reply here -->
         {% for replay in comment.replies.all %}
-        <article class="social-comment ml-3 ml-md-5">
+        <article class="social-comment social-detail-comment ml-3 ml-md-5">
             <div class="d-flex align-items-start">
-                {% if replay.commented_by.pic %}
+                {% if replay.commented_by.pic and replay.commented_by.pic.name != 'Download/un.jpg' %}
                 <img src="{{ replay.commented_by.pic.url }}" class="rounded-circle mr-3" alt="" width="42" height="42">
                 {% endif %}
                 <div class="flex-grow-1">
@@ -73,18 +136,35 @@
             </div>
         </article>
         {% endfor %}
-        <button class="btn btn-dark btn-sm ml-3 ml-md-5" type="button" data-toggle="collapse" data-target="#reply-{{ comment.id }}" aria-expanded="false" aria-controls="reply-{{ comment.id }}">
-            Reply</button>
+        <button class="social-detail-reply ml-3 ml-md-5" type="button" data-toggle="collapse" data-target="#reply-{{ comment.id }}" aria-expanded="false" aria-controls="reply-{{ comment.id }}">
+            <i class="fas fa-reply" aria-hidden="true"></i> Reply</button>
         <form action="/social/mypost/{{post.id}}" class="collapse mt-3 ml-3 ml-md-5" id="reply-{{ comment.id }}" method="POST">
             {% csrf_token %}
             {{comment_form|crispy}}
             <input type="hidden" name="parent_id" value="{{ comment.id }}">
-            <button type="submit" class="btn btn-primary">Reply</button>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-reply mr-2" aria-hidden="true"></i>Reply</button>
         </form>
         {% empty %}
-        <p class="text-muted">No comments yet. Be the first to join the conversation.</p>
+        <p class="social-detail-no-comments">No comments yet. Be the first to join the conversation.</p>
         {% endfor %}
         </section>
-</section>
+    </section>
 </main>
+{% endblock %}
+
+{% block js %}
+<script>
+    $('.social-detail-carousel').on('slide.bs.carousel', function () {
+        $(this).find('video').each(function () {
+            this.pause();
+        });
+    });
+
+    $(document).on('click', '.social-detail-like', function () {
+        if (!$(this).hasClass('feed-like-button')) {
+            return;
+        }
+        $(this).addClass('is-animating');
+    });
+</script>
 {% endblock %}

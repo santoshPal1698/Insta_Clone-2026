@@ -1,51 +1,83 @@
 {% extends 'base.html' %}
-{% block title %} PostList page {% endblock title %}
+{% block title %}My posts | SP-TECH{% endblock title %}
 {% block content %}
-{% load static %}
-
 <main class="container-fluid">
-<section class="container">
-    <div class="d-flex flex-wrap align-items-center justify-content-between mb-4">
-        <div>
-            <h1 class="mb-1">My posts</h1>
-            <p class="text-muted mb-0">Manage the moments you have shared.</p>
-        </div>
-        <a class="btn btn-primary mt-3 mt-sm-0" href="/social/mypost/create/"><i class="fas fa-plus mr-2" aria-hidden="true"></i>Create post</a>
-    </div>
-    <form class="form-inline mb-4" role="search">
-        <input class="form-control mr-2 flex-grow-1" placeholder="Search posts" aria-label="Search posts" value="{{ request.GET.si }}" type="text" name="si" />
-        <button class="btn btn-dark mt-2 mt-sm-0" type="submit">Search</button>
-    </form>
-    <div class="table-responsive">
-    <table class="table">
-        <thead class="bg-warning container">
-            <tr>
-                <th>Subject</th>
-                <th>Date</th>
-                <th>View</th>
-                <th>Manage</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for n1 in mypost_list %}
-        <tr>
-            <td class="font-weight-bold">{{n1.subject|default:"Untitled post"}}</td>
-            <td>{{n1.cr_date | date:"M j, Y"}}</td>
-            <td>
-                <a class="btn btn-primary btn-sm" href='/social/mypost/{{n1.id}}'>View post</a>
-            </td>
-            <td>
-                <a class="btn btn-danger btn-sm" href='/social/mypost/delete/{{n1.id}}' aria-label="Delete {{ n1.subject }}">
-                    <i class="fas fa-trash" aria-hidden="true"></i> Delete
+    <section class="container my-posts-page">
+        <header class="my-posts-heading">
+            <div>
+                <span class="my-posts-eyebrow">YOUR MOMENTS</span>
+                <h1>My posts</h1>
+                <p>Manage the photos, videos, and stories you have shared.</p>
+            </div>
+            <a class="btn btn-primary my-posts-create" href="/social/mypost/create/">
+                <i class="fas fa-plus mr-2" aria-hidden="true"></i>Create post
+            </a>
+        </header>
+
+        <form class="my-posts-search" role="search" method="get">
+            <i class="fas fa-search" aria-hidden="true"></i>
+            <input placeholder="Search your posts" aria-label="Search posts" value="{{ request.GET.si }}" type="text" name="si">
+            <button class="btn btn-dark" type="submit">Search</button>
+        </form>
+
+        <div class="my-posts-grid">
+            {% for n1 in mypost_list %}
+            <article class="my-post-card">
+                <div class="my-post-card-media">
+                    {% if n1.pic %}
+                    <img src="{{ n1.pic.url }}" alt="Photo for {{ n1.subject|default:'this post' }}" loading="lazy" decoding="async">
+                    {% elif n1.videofile %}
+                    <video controls preload="metadata" playsinline aria-label="Video for {{ n1.subject|default:'this post' }}">
+                        <source src="{{ n1.videofile.url }}" type="video/mp4">
+                        Your browser does not support video playback.
+                    </video>
+                    {% else %}
+                    <span class="my-post-card-placeholder" aria-hidden="true"><i class="fas fa-feather-alt"></i></span>
+                    {% endif %}
+                    {% if n1.pic and n1.videofile %}
+                    <span class="my-post-media-badge"><i class="fas fa-photo-video mr-1" aria-hidden="true"></i>Photo + video</span>
+                    {% elif n1.pic %}
+                    <span class="my-post-media-badge"><i class="far fa-image mr-1" aria-hidden="true"></i>Photo</span>
+                    {% elif n1.videofile %}
+                    <span class="my-post-media-badge"><i class="fas fa-video mr-1" aria-hidden="true"></i>Video</span>
+                    {% else %}
+                    <span class="my-post-media-badge">Text post</span>
+                    {% endif %}
+                </div>
+                <div class="my-post-card-body">
+                    <time class="my-post-card-date" datetime="{{ n1.cr_date|date:'c' }}">
+                        <i class="far fa-calendar-alt mr-1" aria-hidden="true"></i>{{ n1.cr_date|date:"M j, Y" }}
+                    </time>
+                    <h2>{{ n1.subject|default:"Untitled post" }}</h2>
+                    {% if n1.msg %}
+                    <p class="my-post-card-caption">{{ n1.msg|truncatechars:120 }}</p>
+                    {% else %}
+                    <p class="my-post-card-caption text-muted">No caption added.</p>
+                    {% endif %}
+                    <div class="my-post-card-actions">
+                        <a class="btn btn-primary btn-sm" href="/social/mypost/{{ n1.id }}">
+                            <i class="far fa-eye mr-1" aria-hidden="true"></i>View post
+                        </a>
+                         <a class="btn btn-primary btn-sm" href="/social/mypost/{{ n1.id }}/edit/">
+                            <i class="fas fa-edit mr-1" aria-hidden="true"></i>Edit post
+                        </a>
+                        <a class="btn btn-danger btn-sm" href="/social/mypost/delete/{{ n1.id }}" aria-label="Delete {{ n1.subject|default:'untitled post' }}">
+                            <i class="fas fa-trash-alt mr-1" aria-hidden="true"></i>Delete
+                        </a>
+                    </div>
+                </div>
+            </article>
+            {% empty %}
+            <div class="my-posts-empty">
+                <span class="my-posts-empty-icon"><i class="far fa-images" aria-hidden="true"></i></span>
+                <h2>No posts yet</h2>
+                <p>Your photos, videos, and captions will show up here.</p>
+                <a class="btn btn-primary" href="/social/mypost/create/">
+                    <i class="fas fa-plus mr-2" aria-hidden="true"></i>Create your first post
                 </a>
-            </td>
-        </tr>
-        {% empty %}
-        <tr><td colspan="4" class="py-4 text-center text-muted">No posts found. Create your first post to get started.</td></tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    </div>
-</section>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
 </main>
 {% endblock %}

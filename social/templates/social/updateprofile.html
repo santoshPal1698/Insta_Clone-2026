@@ -1,20 +1,98 @@
-{% extends 'base.html'%}
+{% extends 'base.html' %}
 {% load crispy_forms_tags %}
-{% block tittle %}user profile {% endblock %}
+{% block title %}Edit profile | SP-INSTA{% endblock %}
 {% load static %}
 {% block content %}
-{% load static %}
+<main class="social-profile-edit-page">
+    <section class="social-profile-edit-shell">
+        <a href="{% url 'userprofile' %}" class="social-profile-edit-back">
+            <i class="fas fa-arrow-left" aria-hidden="true"></i> Back to profile
+        </a>
+        <div class="social-profile-edit-card">
+            <header class="social-profile-edit-heading">
+                <span class="social-profile-edit-heading-icon"><i class="fas fa-user-edit" aria-hidden="true"></i></span>
+                <div>
+                    <span class="social-profile-eyebrow">Make it yours</span>
+                    <h1>Edit profile</h1>
+                    <p>Update your name and profile photo.</p>
+                </div>
+            </header>
 
-<section class="container-fluid">
-    <div class="container social-form-card card">
-        <h1>Update your profile</h1>
-        <p class="text-muted">Keep your information up to date.</p>
-        <form method="post" action="{% url 'updateprofile' %}" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{form|crispy}}
-            <button class="btn btn-primary" type="submit">Save changes</button>
-        </form>
-        <a href="{% url 'userprofile' %}" class="btn btn-dark mt-3">View profile</a>
-    </div>
-</section>
+            <div class="social-profile-edit-preview">
+                <div class="social-profile-edit-avatar-wrap">
+                    {% if request.user.myprofile.pic and request.user.myprofile.pic.name != 'Download/un.jpg' %}
+                    <img id="profile-photo-preview" src="{{ request.user.myprofile.pic.url }}" alt="Profile photo preview">
+                    {% else %}
+                    <span id="profile-photo-placeholder" aria-hidden="true">{{ request.user.myprofile.name|default:request.user.username|slice:":1"|upper }}</span>
+                    <img id="profile-photo-preview" src="" alt="Profile photo preview" hidden>
+                    {% endif %}
+                    <span class="social-profile-edit-camera" aria-hidden="true"><i class="fas fa-camera"></i></span>
+                </div>
+                <div>
+                    <strong id="profile-name-preview">{{ request.user.myprofile.name|default:request.user.username }}{% if request.user.myprofile.last_name %} {{ request.user.myprofile.last_name }}{% endif %}</strong>
+                    <span>@{{ request.user.username }}</span>
+                </div>
+            </div>
+
+            <form method="post" action="{% url 'updateprofile' %}" enctype="multipart/form-data" class="social-profile-edit-form">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <div class="social-profile-edit-actions">
+                    <button class="social-profile-save-btn" type="submit"><i class="fas fa-check" aria-hidden="true"></i> Save changes</button>
+                    <a href="{% url 'userprofile' %}" class="social-profile-cancel-btn">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </section>
+</main>
+{% endblock %}
+
+{% block js %}
+<script>
+    (function () {
+        var firstName = document.getElementById('id_name');
+        var lastName = document.getElementById('id_last_name');
+        var fullName = document.getElementById('profile-name-preview');
+        var photoInput = document.getElementById('id_pic');
+        var photoPreview = document.getElementById('profile-photo-preview');
+        var photoPlaceholder = document.getElementById('profile-photo-placeholder');
+
+        function updateNamePreview() {
+            if (!fullName) return;
+            var name = firstName ? firstName.value.trim() : '';
+            var surname = lastName ? lastName.value.trim() : '';
+            fullName.textContent = [name, surname].filter(Boolean).join(' ') || '{{ request.user.username|escapejs }}';
+            fullName.classList.remove('is-previewing');
+            void fullName.offsetWidth;
+            fullName.classList.add('is-previewing');
+            window.setTimeout(function () {
+                fullName.classList.remove('is-previewing');
+            }, 380);
+        }
+
+        if (firstName) firstName.addEventListener('input', updateNamePreview);
+        if (lastName) lastName.addEventListener('input', updateNamePreview);
+
+        if (photoInput && photoPreview) {
+            photoInput.addEventListener('change', function () {
+                var file = photoInput.files && photoInput.files[0];
+                if (!file) return;
+                if (!file.type || file.type.indexOf('image/') !== 0) return;
+                var reader = new FileReader();
+                reader.onload = function (event) {
+                    photoPreview.src = event.target.result;
+                    photoPreview.hidden = false;
+                    if (photoPlaceholder) photoPlaceholder.hidden = true;
+                    photoPreview.classList.remove('is-previewing');
+                    void photoPreview.offsetWidth;
+                    photoPreview.classList.add('is-previewing');
+                    window.setTimeout(function () {
+                        photoPreview.classList.remove('is-previewing');
+                    }, 520);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+    }());
+</script>
 {% endblock %}

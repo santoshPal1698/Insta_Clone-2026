@@ -250,6 +250,18 @@ class MyPostCreate(CreateView):
         return HttpResponseRedirect(self.get_success_url())
 
 
+@method_decorator(login_required, name="dispatch")
+class MyPostUpdateView(UpdateView):
+    model = MyPost
+    fields = ["subject", "videofile", "msg", "pic"]
+    template_name = "social/mypost_form.html"
+
+    def get_queryset(self):
+        if not hasattr(self.request.user, "myprofile"):
+            return MyPost.objects.none()
+        return MyPost.objects.filter(uploaded_by=self.request.user.myprofile)
+
+
 @method_decorator(login_required, name="dispatch")    
 class MyPostListView(ListView):
     model = MyPost
@@ -291,7 +303,18 @@ def myPostDetail(req,pk):
     else:
         comment_form = CommentForm()
 
-    context = {'post':post,'comments':comments,'comment_form':comment_form}
+    post_likes = PostLike.objects.filter(post=post)
+    liked = False
+    if req.user.is_authenticated and hasattr(req.user, "myprofile"):
+        liked = post_likes.filter(liked_by=req.user.myprofile).exists()
+
+    context = {
+        'post': post,
+        'comments': comments,
+        'comment_form': comment_form,
+        'liked': liked,
+        'like_count': post_likes.count(),
+    }
     return render(req,'social/mypost_detail.html',context)
 
 

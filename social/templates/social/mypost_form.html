@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %} Create post page  {% endblock title %}  
+{% block title %}{% if object %}Edit post{% else %}Create post{% endif %} | SP-TECH{% endblock title %}
 
 {% block content %}
 {% load crispy_forms_tags %}
@@ -10,13 +10,14 @@
 <main class="container social-form-card card">
 <div class="row">
 	<div class="col-md-12">
-	<h1>Create a post</h1>
-	<p class="text-muted">Share a photo, video, or moment with your community.</p>
+	<h1>{% if object %}Edit your post{% else %}Create a post{% endif %}</h1>
+	<p class="text-muted">{% if object %}Update the caption, photo, or video for this post.{% else %}Share a photo, video, or moment with your community.{% endif %}</p>
 		<hr>
 		<form enctype="multipart/form-data" method="post">
 		{% csrf_token %}
 		{{form|crispy}}
-		  <button type="submit" class="btn btn-primary">Publish post</button>
+		  <button type="submit" class="btn btn-primary">{% if object %}Save changes{% else %}Publish post{% endif %}</button>
+		  {% if object %}<a class="btn btn-dark ml-2" href="/social/mypost/{{ object.pk }}">Cancel</a>{% endif %}
 		</form>
 	
 	</div>

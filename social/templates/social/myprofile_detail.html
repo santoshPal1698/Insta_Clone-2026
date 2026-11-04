@@ -1,33 +1,74 @@
 {% extends 'base.html' %}
-{% block content %}
+{% block title %}{{ myprofile.name|default:myprofile.user.username }} | SP-INSTA{% endblock %}
 {% load static %}
+{% block content %}
+<main class="social-profile-page">
+    <section class="social-profile-shell social-public-profile-shell">
+        <header class="social-profile-banner">
+            <div class="social-profile-banner-orb social-profile-banner-orb-one"></div>
+            <div class="social-profile-banner-orb social-profile-banner-orb-two"></div>
+            <span class="social-profile-banner-label"><i class="fas fa-star" aria-hidden="true"></i> Community profile</span>
+        </header>
 
-<main class="container-fluid">
-    <section class="container">
-        <article class="social-profile-card card">
-            <div class="row align-items-center">
-                <div class="col-md-4 text-center mb-4 mb-md-0">
-                    {% if myprofile.pic.name != 'Download/un.jpg' %}
-                    <img class="social-profile-avatar" src="{{ myprofile.pic.url }}" alt="{{ myprofile.name }}'s profile photo">
+        <article class="social-profile-panel">
+            <div class="social-profile-hero">
+                <div class="social-profile-avatar-wrap">
+                    {% if myprofile.pic and myprofile.pic.name != 'Download/un.jpg' %}
+                    <img class="social-profile-avatar" src="{{ myprofile.pic.url }}" alt="{{ myprofile.name|default:myprofile.user.username }}'s profile photo">
                     {% else %}
-                    <div class="social-profile-avatar social-profile-avatar-placeholder mx-auto" aria-hidden="true">
+                    <div class="social-profile-avatar social-profile-avatar-placeholder" aria-hidden="true">
                         {{ myprofile.name|default:myprofile.user.username|slice:":1"|upper }}
                     </div>
                     {% endif %}
-                    <h2 class="h4 mt-3">{{ myprofile.name|default:myprofile.user.username }}</h2>
-                    <p class="text-muted">@{{ myprofile.user.username }}</p>
+                    <span class="social-profile-online-dot" aria-hidden="true"></span>
                 </div>
-                <div class="col-md-8">
-                    <h1>About this profile</h1>
-                    <dl class="mb-4">
-                        <div class="social-profile-field"><dt>Age</dt><dd>{{ myprofile.age|default:"Not provided" }}</dd></div>
-                        <div class="social-profile-field"><dt>Gender</dt><dd>{{ myprofile.gender|default:"Not provided" }}</dd></div>
-                        <div class="social-profile-field"><dt>Address</dt><dd>{{ myprofile.address|default:"Not provided" }}</dd></div>
-                        <div class="social-profile-field"><dt>Status</dt><dd>{{ myprofile.status|default:"Not provided" }}</dd></div>
-                        <div class="social-profile-field"><dt>Phone</dt><dd>{{ myprofile.phone_no|default:"Not provided" }}</dd></div>
-                        <div class="social-profile-field"><dt>About</dt><dd>{{ myprofile.description|default:"No description added yet." }}</dd></div>
-                    </dl>
-                    <a href="/social/myprofile/" class="btn btn-dark">Back to profiles</a>
+                <div class="social-profile-identity">
+                    <span class="social-profile-eyebrow">Instagram profile</span>
+                    <h1>{{ myprofile.name|default:myprofile.user.username }}{% if myprofile.last_name %} {{ myprofile.last_name }}{% endif %}</h1>
+                    <p class="social-profile-handle">@{{ myprofile.user.username }}</p>
+                    <p class="social-profile-bio">{{ myprofile.description|default:"No description added yet." }}</p>
+                    <div class="social-profile-hero-actions">
+                        <a href="/social/myprofile/" class="social-profile-posts-btn">
+                            <i class="fas fa-arrow-left" aria-hidden="true"></i> Back to profiles
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="social-profile-details">
+                <div class="social-profile-section-heading">
+                    <span class="social-profile-section-icon"><i class="fas fa-user-circle" aria-hidden="true"></i></span>
+                    <div><h2>About {{ myprofile.name|default:myprofile.user.username }}</h2><p>Profile details</p></div>
+                </div>
+                <dl class="social-profile-fields">
+                    <div class="social-profile-field">
+                        <dt><i class="fas fa-birthday-cake" aria-hidden="true"></i> Age</dt>
+                        <dd>{{ myprofile.age|default:"Not provided" }}</dd>
+                    </div>
+                    <div class="social-profile-field">
+                        <dt><i class="fas fa-venus-mars" aria-hidden="true"></i> Gender</dt>
+                        <dd>{{ myprofile.gender|default:"Not provided" }}</dd>
+                    </div>
+                    <div class="social-profile-field">
+                        <dt><i class="fas fa-map-marker-alt" aria-hidden="true"></i> Address</dt>
+                        <dd>{{ myprofile.address|default:"Not provided" }}</dd>
+                    </div>
+                    <div class="social-profile-field">
+                        <dt><i class="fas fa-heart" aria-hidden="true"></i> Status</dt>
+                        <dd>{{ myprofile.status|default:"Not provided" }}</dd>
+                    </div>
+                    <div class="social-profile-field">
+                        <dt><i class="fas fa-phone-alt" aria-hidden="true"></i> Phone</dt>
+                        <dd>{{ myprofile.phone_no|default:"Not provided" }}</dd>
+                    </div>
+                    <div class="social-profile-field social-profile-field-wide">
+                        <dt><i class="far fa-comment-dots" aria-hidden="true"></i> About</dt>
+                        <dd>{{ myprofile.description|default:"No description added yet." }}</dd>
+                    </div>
+                </dl>
+                <div class="social-profile-user-id">
+                    <span><i class="fas fa-fingerprint" aria-hidden="true"></i> Account ID</span>
+                    <strong>{{ myprofile.user_id }}</strong>
                 </div>
             </div>
         </article>

@@ -28,7 +28,7 @@
     <!-- Material Design Bootstrap -->
 
     <link href="{% static 'css/mdb.min.css' %}" rel="stylesheet">
-    <link href="{% static 'css/social-ui.css' %}?v=20261103-social-ui-v3" rel="stylesheet">
+    <link href="{% static 'css/social-ui.css' %}?v=20261104-discover-contacts-v3" rel="stylesheet">
     <link href="{% static 'css/account-ui.css' %}?v=20261103-account-ui" rel="stylesheet">
     <title> {% block title %} {% endblock title %} </title>
 </head>
@@ -67,7 +67,7 @@
                         <button class="nav-link site-account-toggle dropdown-toggle" id="accountMenu" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {% if user.is_superuser %}
                             <span class="site-avatar">{{ user.username|slice:":1"|upper }}</span>
-                            {% elif user.myprofile.pic.name == 'Download/un.jpg' %}
+                            {% elif not user.myprofile.pic or user.myprofile.pic.name == 'Download/un.jpg' %}
                             <span class="site-avatar">{{ user.myprofile.name|default:user.username|slice:":1"|upper }}</span>
                             {% else %}
                             <img class="site-avatar" src="{{ user.myprofile.pic.url }}" alt="">
@@ -83,6 +83,7 @@
                             <a class="dropdown-item" href="/admin/">
                                 <i class="fas fa-shield-alt" aria-hidden="true"></i> Admin dashboard
                             </a>
+                            
                             {% else %}
                             <a class="dropdown-item" href="/social/profile/edit/{{ user.myprofile.id }}">
                                 <i class="fas fa-user-edit" aria-hidden="true"></i> Edit profile
@@ -90,6 +91,9 @@
                             {% endif %}
                             <a class="dropdown-item" href="/social/mypost/">
                                 <i class="fas fa-images" aria-hidden="true"></i> My posts
+                            </a>
+                             <a class="dropdown-item" href="/social/userprofile">
+                                <i class="fas fa-shield-alt" aria-hidden="true"></i> User Profile 
                             </a>
                             {% if not user.is_superuser %}
                             <a class="dropdown-item" href="/social/myprofile/">
@@ -111,7 +115,6 @@
                     </li>
                 </ul>
             </div>
-            <!-- {{request.user.myprofile.name}} -->
         </div>
     </nav>
     {% endif %}
@@ -203,6 +206,7 @@
         $(document).on('click', '#likesp', function(event) {
             event.preventDefault();
             var pk = this.dataset.like_id;
+            var reloadDelay = $(this).hasClass('feed-like-button') ? 520 : 0;
             console.log('rakesh', pk)
             url = '/social/mypost/like/' + pk
             console.log('url', url)
@@ -213,7 +217,9 @@
                 success: function(data) {
 
                     console.log('data', data)
-                    location.reload();
+                    window.setTimeout(function() {
+                        location.reload();
+                    }, reloadDelay);
                 },
             })
         })
@@ -224,6 +230,7 @@
         $(document).on('click', '#unlike', function(event) {
             event.preventDefault();
             var pk = this.dataset.unlike_id;
+            var reloadDelay = $(this).hasClass('feed-like-button') ? 520 : 0;
             console.log('rakesh', pk)
             url = '/social/mypost/unlike/' + pk
             console.log('url', url)
@@ -232,7 +239,9 @@
                 url: url,
                 success: function(data) {
                     console.log('data', data)
-                    location.reload();
+                    window.setTimeout(function() {
+                        location.reload();
+                    }, reloadDelay);
                 },
             })
         })

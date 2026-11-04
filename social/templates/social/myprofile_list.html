@@ -1,41 +1,60 @@
 {% extends 'base.html' %}
-{% block title %} Profile page {% endblock title %}
+{% block title %}Discover people | SP-INSTA{% endblock title %}
 {% block content %}
 {% load static %}
 
-<main class="container-fluid">
-    <section class="container">
-        <header class="mb-4">
-            <h1 class="mb-1">Discover people</h1>
-            <p class="text-muted">Find people and follow their latest moments.</p>
+<main class="social-discover-page">
+    <section class="social-discover-shell">
+        <header class="social-discover-heading">
+            <span class="social-discover-eyebrow"><i class="fas fa-compass" aria-hidden="true"></i> Community</span>
+            <h1>Discover people</h1>
+            <p>Find people, explore their profiles, and follow their latest moments.</p>
         </header>
-        <form class="form-inline mb-4" role="search">
-            <input class="form-control mr-2 flex-grow-1" placeholder="Search profiles" aria-label="Search profiles" value="{{ request.GET.si }}" type="text" name="si" />
-            <button class="btn btn-dark mt-2 mt-sm-0" type="submit">Search</button>
+        <form class="social-discover-search" role="search">
+            <i class="fas fa-search" aria-hidden="true"></i>
+            <input class="form-control" placeholder="Search profiles" aria-label="Search profiles" value="{{ request.GET.si }}" type="text" name="si" />
+            <button type="submit">Search</button>
         </form>
         <div class="social-profile-grid">
             {% for n1 in myprofile_list %}
             <article class="social-person-card">
-                {% if n1.pic.name != 'Download/un.jpg' %}
+                {% if n1.pic and n1.pic.name != 'Download/un.jpg' %}
                 <img class="social-person-avatar" src="{{ n1.pic.url }}" alt="{{ n1.name }}'s profile photo">
                 {% else %}
                 <span class="social-person-avatar social-person-avatar-placeholder" aria-hidden="true">
                     {{ n1.name|default:n1.user.username|slice:":1"|upper }}
                 </span>
                 {% endif %}
-                <h2>{{ n1.name|default:n1.user.username }}</h2>
-                <p>{{ n1.gender|capfirst }}</p>
+                <span class="social-person-eyebrow">Instagram profile</span>
+                <h2>{{ n1.name|default:n1.user.username }}{% if n1.last_name %} {{ n1.last_name }}{% endif %}</h2>
+                <p class="social-person-handle">@{{ n1.user.username }}</p>
+                <div class="social-person-phone">
+                    <i class="fas fa-phone-alt" aria-hidden="true"></i>
+                    <span>
+                        <small>Mobile number</small>
+                        <strong>{% if n1.phone_no %}{{ n1.phone_no }}{% else %}Not provided{% endif %}</strong>
+                    </span>
+                </div>
                 <div class="social-person-actions">
-                    <a class="btn btn-dark btn-sm" href="/social/myprofile/{{ n1.id }}">View profile</a>
+                    <a class="btn social-person-view-btn" href="/social/myprofile/{{ n1.id }}">
+                        <i class="far fa-user" aria-hidden="true"></i> View profile
+                    </a>
                     {% if n1.followed %}
-                    <a class="btn btn-danger btn-sm" href="/social/myprofile/unfollow/{{ n1.id }}">Unfollow</a>
+                    <a class="btn social-person-following-btn" href="/social/myprofile/unfollow/{{ n1.id }}">
+                        <i class="fas fa-user-check" aria-hidden="true"></i> Following
+                    </a>
                     {% else %}
-                    <a class="btn btn-primary btn-sm" href="/social/myprofile/follow/{{ n1.id }}">Follow</a>
+                    <a class="btn social-person-follow-btn" href="/social/myprofile/follow/{{ n1.id }}">
+                        <i class="fas fa-user-plus" aria-hidden="true"></i> Follow
+                    </a>
                     {% endif %}
                 </div>
             </article>
             {% empty %}
-            <p class="text-muted">No profiles found. Try a different search.</p>
+            <div class="social-discover-empty">
+                <span><i class="far fa-user" aria-hidden="true"></i></span>
+                <p class="social-discover-empty-text">Try a different search to discover people. this data not Found</p>
+            </div>
             {% endfor %}
         </div>
     </section>

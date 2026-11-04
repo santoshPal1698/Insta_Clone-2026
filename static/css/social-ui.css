@@ -235,11 +235,975 @@
     overflow-wrap: anywhere;
 }
 
-.social-page-content .social-post-media {
-    max-height: 640px;
+.social-page-content .social-profile-page {
+    background:
+        radial-gradient(ellipse at 50% 0, rgba(214, 46, 131, .07), transparent 34rem),
+        #fafafa;
+}
+
+.social-page-content .social-profile-shell {
+    width: min(100%, 980px);
+    margin: 0 auto;
+    animation: feed-rise-in .5s ease both;
+}
+
+.social-page-content .social-profile-banner {
+    position: relative;
+    display: flex;
+    min-height: clamp(150px, 24vw, 230px);
+    align-items: flex-start;
+    overflow: hidden;
+    padding: 22px;
+    border-radius: 24px 24px 0 0;
+    background: linear-gradient(115deg, #5b38a8 0%, #c13584 52%, #f77737 100%);
+}
+
+.social-page-content .social-profile-banner::after {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent 25%, rgba(255,255,255,.15) 48%, transparent 68%);
+    content: "";
+    transform: translateX(-100%);
+    animation: profile-banner-shine 1.4s .2s ease-out both;
+}
+
+@keyframes profile-banner-shine {
+    to { transform: translateX(100%); }
+}
+
+.social-page-content .social-profile-banner-orb {
+    position: absolute;
+    border: 1px solid rgba(255, 255, 255, .18);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .08);
+    animation: profile-orb-float 7s ease-in-out infinite alternate;
+}
+
+.social-page-content .social-profile-banner-orb-one {
+    top: -90px;
+    right: 8%;
+    width: 250px;
+    height: 250px;
+}
+
+.social-page-content .social-profile-banner-orb-two {
+    right: 34%;
+    bottom: -155px;
+    width: 270px;
+    height: 270px;
+    animation-delay: -2s;
+}
+
+@keyframes profile-orb-float {
+    to { transform: translate3d(0, -13px, 0) scale(1.04); }
+}
+
+.social-page-content .social-profile-banner-label {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 12px;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, .3);
+    border-radius: 999px;
+    background: rgba(46, 25, 82, .2);
+    font-size: .75rem;
+    font-weight: 750;
+    letter-spacing: .03em;
+    backdrop-filter: blur(8px);
+}
+
+.social-page-content .social-profile-panel {
+    position: relative;
+    margin: -1px 0 0;
+    overflow: hidden;
+    border: 1px solid #e8e8ed;
+    border-top: 0;
+    border-radius: 0 0 24px 24px;
+    background: #fff;
+    box-shadow: 0 18px 48px rgba(37, 31, 47, .08);
+}
+
+.social-page-content .social-profile-hero {
+    display: grid;
+    grid-template-columns: minmax(140px, 210px) minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(22px, 5vw, 52px);
+    padding: 0 clamp(22px, 5vw, 52px) 34px;
+    animation: feed-rise-in .55s .08s ease both;
+}
+
+.social-page-content .social-profile-avatar-wrap {
+    position: relative;
+    width: clamp(132px, 19vw, 190px);
+    aspect-ratio: 1;
+    justify-self: center;
+    margin-top: clamp(-84px, -9vw, -56px);
+    padding: 6px;
+    border: 4px solid #fff;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #feda75, #fa7e1e, #d62976, #962fbf);
+    box-shadow: 0 12px 30px rgba(52, 33, 75, .2);
+    animation: profile-avatar-in .65s cubic-bezier(.2, .8, .25, 1.2) both;
+}
+
+@keyframes profile-avatar-in {
+    from { opacity: 0; transform: translateY(14px) scale(.82); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.social-page-content .social-profile-hero .social-profile-avatar {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1;
+    place-items: center;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    background: #f1eafa;
+    box-shadow: none;
+    font-size: clamp(2.4rem, 7vw, 4rem);
+    object-fit: cover;
+    transition: transform .35s ease;
+}
+
+.social-page-content .social-profile-avatar-wrap:hover .social-profile-avatar {
+    transform: scale(1.045);
+}
+
+.social-page-content .social-profile-online-dot {
+    position: absolute;
+    right: 13px;
+    bottom: 13px;
+    width: 17px;
+    height: 17px;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    background: #48c774;
+    box-shadow: 0 0 0 0 rgba(72, 199, 116, .45);
+    animation: profile-online-pulse 2s infinite;
+}
+
+@keyframes profile-online-pulse {
+    70% { box-shadow: 0 0 0 7px rgba(72, 199, 116, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(72, 199, 116, 0); }
+}
+
+.social-page-content .social-profile-identity {
+    min-width: 0;
+    padding-top: 26px;
+}
+
+.social-page-content .social-profile-eyebrow {
+    display: block;
+    margin-bottom: 6px;
+    color: #9a5ac1;
+    font-size: .7rem;
+    font-weight: 800;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+}
+
+.social-page-content .social-profile-identity h1 {
+    margin: 0 0 4px;
+    color: #262333;
+    font-size: clamp(1.8rem, 4vw, 2.45rem);
+    font-weight: 800;
+    letter-spacing: -.055em;
+    overflow-wrap: anywhere;
+}
+
+.social-page-content .social-profile-handle {
+    margin: 0 0 11px;
+    color: #85818f;
+    font-size: .94rem;
+    font-weight: 600;
+}
+
+.social-page-content .social-profile-bio {
+    max-width: 520px;
+    margin: 0 0 17px;
+    color: #5f5c68;
+    font-size: .92rem;
+    line-height: 1.65;
+    overflow-wrap: anywhere;
+}
+
+.social-page-content .social-profile-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+}
+
+.social-page-content .social-profile-edit-btn,
+.social-page-content .social-profile-posts-btn {
+    display: inline-flex;
+    min-height: 40px;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 15px;
+    border-radius: 10px;
+    font-size: .84rem;
+    font-weight: 750;
+    transition: box-shadow .2s ease, transform .2s ease, background .2s ease;
+}
+
+.social-page-content .social-profile-edit-btn {
+    color: #fff;
+    background: linear-gradient(110deg, #7741b8, #c13584);
+    box-shadow: 0 6px 16px rgba(153, 57, 151, .2);
+}
+
+.social-page-content .social-profile-edit-btn:hover {
+    color: #fff;
+    box-shadow: 0 9px 22px rgba(153, 57, 151, .3);
+    text-decoration: none;
+    transform: translateY(-2px);
+}
+
+.social-page-content .social-profile-posts-btn {
+    color: #484454;
+    border: 1px solid #e8e6ed;
+    background: #fff;
+}
+
+.social-page-content .social-profile-posts-btn:hover {
+    color: #6841a8;
+    border-color: #d3c5e8;
+    background: #fbf9ff;
+    text-decoration: none;
+    transform: translateY(-2px);
+}
+
+.social-page-content .social-profile-details {
+    padding: 25px clamp(22px, 5vw, 52px) 30px;
+    border-top: 1px solid #f0eff3;
+    background: linear-gradient(180deg, #fdfcff, #fff 65%);
+    animation: feed-rise-in .55s .16s ease both;
+}
+
+.social-page-content .social-profile-section-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.social-page-content .social-profile-section-icon {
+    display: grid;
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    place-items: center;
+    color: #7a4daf;
+    border-radius: 13px;
+    background: #f3edfb;
+    font-size: 1.2rem;
+}
+
+.social-page-content .social-profile-section-heading h2 {
+    margin: 0 0 2px;
+    color: #302c3a;
+    font-size: 1.05rem;
+    font-weight: 750;
+}
+
+.social-page-content .social-profile-section-heading p {
+    margin: 0;
+    color: #918d99;
+    font-size: .78rem;
+}
+
+.social-page-content .social-profile-fields {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin: 0;
+}
+
+.social-page-content .social-profile-fields .social-profile-field {
+    min-width: 0;
+    padding: 13px 15px;
+    border: 1px solid #efedf3;
+    border-radius: 12px;
+    background: #fff;
+    transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+
+.social-page-content .social-profile-fields .social-profile-field:hover {
+    border-color: #ded2ec;
+    box-shadow: 0 6px 16px rgba(70, 50, 90, .05);
+    transform: translateY(-2px);
+}
+
+.social-page-content .social-profile-fields .social-profile-field-wide {
+    grid-column: 1 / -1;
+}
+
+.social-page-content .social-profile-fields .social-profile-field dt {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 5px;
+    color: #8d8797;
+    font-size: .7rem;
+    letter-spacing: .07em;
+}
+
+.social-page-content .social-profile-fields .social-profile-field dt i {
+    color: #a36dc2;
+    font-size: .78rem;
+}
+
+.social-page-content .social-profile-fields .social-profile-field dd {
+    color: #35313d;
+    font-size: .9rem;
+    font-weight: 650;
+}
+
+.social-page-content .social-profile-user-id {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 13px;
+    padding: 11px 14px;
+    border-radius: 11px;
+    color: #827d8c;
+    background: #f7f6f9;
+    font-size: .75rem;
+}
+
+.social-page-content .social-profile-user-id span {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.social-page-content .social-profile-user-id strong {
+    color: #50495d;
+    font-variant-numeric: tabular-nums;
+}
+
+.social-page-content .social-profile-edit-page {
+    background:
+        radial-gradient(ellipse at 50% 0, rgba(193, 53, 132, .08), transparent 32rem),
+        #fafafa;
+}
+
+.social-page-content .social-profile-edit-shell {
+    width: min(100%, 720px);
+    margin: 0 auto;
+}
+
+.social-page-content .social-profile-edit-back {
+    display: inline-flex;
+    min-height: 38px;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 15px;
+    padding: 0 13px;
+    color: #514a5c;
+    border: 1px solid #e8e6ed;
+    border-radius: 999px;
+    background: #fff;
+    font-size: .83rem;
+    font-weight: 700;
+    transition: transform .18s ease, color .18s ease;
+}
+
+.social-page-content .social-profile-edit-back:hover {
+    color: #7545a5;
+    text-decoration: none;
+    transform: translateX(-2px);
+}
+
+.social-page-content .social-profile-edit-card {
+    overflow: hidden;
+    padding: clamp(22px, 5vw, 42px);
+    border: 1px solid #e9e7ed;
+    border-radius: 22px;
+    background: #fff;
+    box-shadow: 0 18px 48px rgba(37, 31, 47, .08);
+    animation: feed-rise-in .48s ease both;
+}
+
+.social-page-content .social-profile-edit-heading {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 22px;
+}
+
+.social-page-content .social-profile-edit-heading-icon {
+    display: grid;
+    width: 52px;
+    height: 52px;
+    flex: 0 0 52px;
+    place-items: center;
+    color: #fff;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #7741b8, #d62976);
+    box-shadow: 0 7px 17px rgba(153, 57, 151, .2);
+    font-size: 1.25rem;
+}
+
+.social-page-content .social-profile-edit-heading h1 {
+    margin: 0 0 3px;
+    color: #292533;
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-weight: 800;
+    letter-spacing: -.04em;
+}
+
+.social-page-content .social-profile-edit-heading p {
+    margin: 0;
+    color: #85818d;
+    font-size: .86rem;
+}
+
+.social-page-content .social-profile-edit-preview {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 23px;
+    padding: 15px;
+    border: 1px solid #f0edf4;
+    border-radius: 15px;
+    background: linear-gradient(110deg, #fcf9ff, #fff9fc);
+}
+
+.social-page-content .social-profile-edit-avatar-wrap {
+    position: relative;
+    display: grid;
+    width: 70px;
+    height: 70px;
+    flex: 0 0 70px;
+    place-items: center;
+    overflow: hidden;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #feda75, #fa7e1e, #d62976, #962fbf);
+    box-shadow: 0 4px 12px rgba(72, 39, 84, .17);
+}
+
+.social-page-content .social-profile-edit-avatar-wrap img,
+.social-page-content .social-profile-edit-avatar-wrap > span:first-child {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    place-items: center;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    color: #fff;
+    background: linear-gradient(135deg, #8270e8, #d62976);
+    font-size: 1.4rem;
+    font-weight: 800;
+    object-fit: cover;
+}
+
+.social-page-content .social-profile-edit-avatar-wrap img[hidden] {
+    display: none;
+}
+
+.social-page-content .social-profile-edit-camera {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    display: grid;
+    width: 24px;
+    height: 24px;
+    place-items: center;
+    color: #fff;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    background: #c13584;
+    font-size: .62rem;
+}
+
+.social-page-content .social-profile-edit-preview > div:last-child {
+    display: grid;
+    min-width: 0;
+    gap: 4px;
+}
+
+.social-page-content .social-profile-edit-preview strong {
+    overflow: hidden;
+    color: #302c39;
+    font-size: .97rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.social-page-content .social-profile-edit-preview strong.is-previewing {
+    animation: profile-name-update .36s ease both;
+}
+
+@keyframes profile-name-update {
+    0% { opacity: .35; transform: translateY(4px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+.social-page-content .social-profile-edit-avatar-wrap img.is-previewing {
+    animation: profile-photo-update .5s cubic-bezier(.2, .8, .25, 1.2) both;
+}
+
+@keyframes profile-photo-update {
+    0% { opacity: .45; transform: scale(.82) rotate(-5deg); }
+    100% { opacity: 1; transform: scale(1) rotate(0); }
+}
+
+.social-page-content .social-profile-edit-preview > div:last-child > span {
+    color: #898492;
+    font-size: .82rem;
+}
+
+.social-page-content .social-profile-edit-form .form-group {
+    margin-bottom: 17px;
+}
+
+.social-page-content .social-profile-edit-form input[type="file"] {
+    min-height: auto !important;
+    padding: 10px !important;
+    background: #fcfbfd !important;
+}
+
+.social-page-content .social-profile-edit-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 22px;
+}
+
+.social-page-content .social-profile-save-btn,
+.social-page-content .social-profile-cancel-btn {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 18px;
+    border: 0;
+    border-radius: 10px;
+    font-size: .88rem;
+    font-weight: 750;
+    transition: box-shadow .2s ease, transform .2s ease, background .2s ease;
+}
+
+.social-page-content .social-profile-save-btn {
+    color: #fff;
+    background: linear-gradient(110deg, #7741b8, #c13584);
+    box-shadow: 0 6px 16px rgba(153, 57, 151, .2);
+}
+
+.social-page-content .social-profile-save-btn:hover {
+    box-shadow: 0 9px 20px rgba(153, 57, 151, .29);
+    transform: translateY(-1px);
+}
+
+.social-page-content .social-profile-cancel-btn {
+    color: #514a5c;
+    border: 1px solid #e8e6ed;
+    background: #fff;
+}
+
+.social-page-content .social-profile-cancel-btn:hover {
+    color: #7545a5;
+    background: #faf8fd;
+    text-decoration: none;
+}
+
+.social-page-content .social-post-detail-page {
+    padding: clamp(20px, 4vw, 40px) 16px 64px !important;
+    background: #fafafa;
+}
+
+.social-page-content .social-post-detail {
+    width: min(100%, 680px);
+    margin: 0 auto;
+}
+
+.social-page-content .social-detail-back {
+    display: inline-flex;
+    min-height: 40px;
+    align-items: center;
+    gap: 9px;
+    margin: 0 0 16px;
+    padding: 0 14px;
+    color: #262626;
+    border: 1px solid #dbdbdb;
+    border-radius: 999px;
+    background: #fff;
+    font-size: .88rem;
+    font-weight: 650;
+    transition: color .18s ease, border-color .18s ease, transform .18s ease;
+}
+
+.social-page-content .social-detail-back:hover {
+    color: #5146a7;
+    border-color: #bdb5f2;
+    text-decoration: none;
+    transform: translateX(-2px);
+}
+
+.social-page-content .social-detail-card,
+.social-page-content .social-detail-comments {
+    overflow: hidden;
+    margin-bottom: 20px;
+    border: 1px solid #dbdbdb;
     border-radius: 14px;
-    background: #f2f3f8;
+    background: #fff;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, .035);
+    animation: feed-rise-in .45s ease both;
+}
+
+.social-page-content .social-detail-header {
+    display: flex;
+    min-height: 68px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 16px;
+}
+
+.social-page-content .social-detail-author {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    gap: 11px;
+}
+
+.social-page-content .social-detail-avatar,
+.social-page-content .social-detail-avatar-placeholder {
+    display: grid;
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    place-items: center;
+    border: 2px solid #d62e83;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.social-page-content .social-detail-avatar-placeholder {
+    color: #fff;
+    background: linear-gradient(135deg, #feda75, #fa7e1e, #d62976, #962fbf);
+    font-size: 1rem;
+}
+
+.social-page-content .social-detail-author-info {
+    display: grid;
+    min-width: 0;
+    gap: 2px;
+}
+
+.social-page-content .social-detail-author-info strong {
+    overflow: hidden;
+    color: #262626;
+    font-size: .91rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.social-page-content .social-detail-author-info time {
+    color: #737373;
+    font-size: .76rem;
+}
+
+.social-page-content .social-detail-edit {
+    display: inline-flex;
+    min-height: 36px;
+    align-items: center;
+    gap: 7px;
+    padding: 0 12px;
+    color: #5146a7;
+    border-radius: 999px;
+    background: #f0edff;
+    font-size: .84rem;
+    font-weight: 700;
+    transition: background .18s ease, transform .18s ease;
+}
+
+.social-page-content .social-detail-edit:hover {
+    color: #393078;
+    background: #e5e0ff;
+    text-decoration: none;
+    transform: translateY(-1px);
+}
+
+.social-page-content .social-detail-media {
+    display: flex;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    max-height: min(760px, 78vh);
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: #111;
+}
+
+.social-page-content .social-detail-media img,
+.social-page-content .social-detail-media video {
+    display: block;
+    width: 100%;
+    height: 100%;
     object-fit: contain;
+}
+
+.social-page-content .social-detail-media video {
+    background: #111;
+}
+
+.social-page-content .social-detail-carousel .carousel-indicators {
+    right: auto;
+    bottom: 12px;
+    left: 50%;
+    z-index: 3;
+    display: flex;
+    width: max-content;
+    align-items: center;
+    gap: 4px;
+    margin: 0;
+    padding: 5px;
+    border: 1px solid rgba(255, 255, 255, .26);
+    border-radius: 999px;
+    background: rgba(20, 20, 20, .58);
+    transform: translateX(-50%);
+    backdrop-filter: blur(10px);
+}
+
+.social-page-content .social-detail-carousel .carousel-indicators li {
+    display: inline-flex;
+    width: auto;
+    height: 28px;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin: 0;
+    padding: 0 10px;
+    border: 0;
+    border-radius: 999px;
+    color: rgba(255, 255, 255, .85);
+    background: transparent;
+    cursor: pointer;
+    font-size: .73rem;
+    font-weight: 700;
+    text-indent: 0;
+    opacity: 1;
+    transition: color .18s ease, background .18s ease, transform .18s ease;
+}
+
+.social-page-content .social-detail-carousel .carousel-indicators li.active {
+    color: #262626;
+    background: #fff;
+}
+
+.social-page-content .social-detail-carousel .carousel-indicators li:hover {
+    transform: scale(1.04);
+}
+
+.social-page-content .social-detail-carousel .carousel-control-prev,
+.social-page-content .social-detail-carousel .carousel-control-next {
+    z-index: 2;
+    width: 15%;
+    opacity: 1;
+}
+
+.social-page-content .social-detail-arrow {
+    display: grid;
+    width: 38px;
+    height: 38px;
+    place-items: center;
+    color: #262626;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .92);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .16);
+    transition: transform .18s ease;
+}
+
+.social-page-content .social-detail-carousel .carousel-control-prev:hover .social-detail-arrow,
+.social-page-content .social-detail-carousel .carousel-control-next:hover .social-detail-arrow {
+    transform: scale(1.08);
+}
+
+.social-page-content .social-detail-actions {
+    display: flex;
+    min-height: 52px;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 18px 2px;
+}
+
+.social-page-content .social-detail-like {
+    position: relative;
+    display: inline-grid;
+    width: 34px;
+    height: 34px;
+    place-items: center;
+    color: #262626;
+    font-size: 1.55rem;
+    text-decoration: none;
+    transition: color .18s ease, transform .18s ease;
+}
+
+.social-page-content .social-detail-like:hover,
+.social-page-content .social-detail-like.is-liked {
+    color: #ed4956;
+    text-decoration: none;
+}
+
+.social-page-content .social-detail-like:hover {
+    transform: scale(1.08);
+}
+
+.social-page-content .social-detail-like.is-animating i {
+    animation: feed-heart-pop .52s cubic-bezier(.2, .8, .25, 1.35);
+}
+
+.social-page-content .social-detail-like.is-animating::after {
+    position: absolute;
+    inset: 3px;
+    border: 2px solid rgba(237, 73, 86, .65);
+    border-radius: 50%;
+    content: "";
+    animation: feed-heart-ring .52s ease-out both;
+}
+
+.social-page-content .social-detail-like-count {
+    color: #262626;
+    font-size: .88rem;
+}
+
+.social-page-content .social-detail-like-count strong {
+    font-weight: 750;
+}
+
+.social-page-content .social-detail-caption {
+    padding: 18px 20px 16px;
+}
+
+.social-page-content .social-detail-caption h1 {
+    margin: 0 0 8px;
+    color: #262626;
+    font-size: 1.08rem;
+    font-weight: 750;
+    letter-spacing: 0;
+}
+
+.social-page-content .social-detail-caption p {
+    margin: 0 0 10px;
+    color: #3d3d3d;
+    font-size: .94rem;
+    line-height: 1.65;
+    overflow-wrap: anywhere;
+}
+
+.social-page-content .social-detail-caption time {
+    color: #8e8e8e;
+    font-size: .71rem;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+}
+
+.social-page-content .social-detail-comments {
+    padding: clamp(18px, 4vw, 28px);
+}
+
+.social-page-content .social-detail-comments-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.social-page-content .social-detail-comments-icon {
+    display: grid;
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
+    place-items: center;
+    color: #5146a7;
+    border-radius: 14px;
+    background: #f0edff;
+    font-size: 1.2rem;
+}
+
+.social-page-content .social-detail-comments-heading h2 {
+    margin: 0 0 3px;
+    color: #262626;
+    font-size: 1.12rem;
+    font-weight: 750;
+}
+
+.social-page-content .social-detail-comments-heading p {
+    margin: 0;
+    color: #737373;
+    font-size: .83rem;
+}
+
+.social-page-content .social-detail-comment-form {
+    margin-bottom: 22px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #efefef;
+}
+
+.social-page-content .social-detail-comment-form textarea.form-control {
+    min-height: 92px;
+}
+
+.social-page-content .social-detail-comment {
+    margin: 12px 0;
+    padding: 14px;
+    border-color: #efefef;
+    border-radius: 12px;
+    box-shadow: none;
+}
+
+.social-page-content .social-detail-comment img {
+    flex: 0 0 42px;
+    border: 2px solid #f0edff;
+    object-fit: cover;
+}
+
+.social-page-content .social-detail-comment strong {
+    color: #262626;
+    font-size: .87rem;
+}
+
+.social-page-content .social-detail-comment p {
+    margin-top: 5px;
+    color: #3d3d3d;
+    font-size: .9rem;
+    overflow-wrap: anywhere;
+}
+
+.social-page-content .social-detail-reply {
+    padding: 6px 10px;
+    color: #737373;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    font-size: .8rem;
+    font-weight: 700;
+    transition: color .18s ease, background .18s ease;
+}
+
+.social-page-content .social-detail-reply:hover {
+    color: #5146a7;
+    background: #f5f3ff;
+}
+
+.social-page-content .social-detail-no-comments {
+    margin: 0;
+    padding: 20px;
+    color: #737373;
+    border: 1px dashed #dedede;
+    border-radius: 12px;
+    background: #fcfcfc;
+    font-size: .9rem;
+    text-align: center;
 }
 
 .social-page-content .social-comment {
@@ -305,20 +1269,311 @@
     margin-top: auto;
 }
 
+.social-page-content .social-discover-page {
+    min-height: 70vh;
+    padding: clamp(24px, 5vw, 52px) 18px 64px !important;
+    background:
+        radial-gradient(ellipse at 50% 0, rgba(193, 53, 132, .07), transparent 34rem),
+        #fafafa;
+}
+
+.social-page-content .social-discover-shell {
+    width: min(100%, 1080px);
+    margin: 0 auto;
+}
+
+.social-page-content .social-discover-heading {
+    margin-bottom: 22px;
+    animation: feed-rise-in .42s ease both;
+}
+
+.social-page-content .social-discover-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 7px;
+    color: #a44c9e;
+    font-size: .73rem;
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+
+.social-page-content .social-discover-heading h1 {
+    margin: 0 0 6px;
+    color: #292533;
+    font-size: clamp(1.8rem, 4vw, 2.45rem);
+    font-weight: 800;
+    letter-spacing: -.05em;
+}
+
+.social-page-content .social-discover-heading p {
+    margin: 0;
+    color: #797582;
+    font-size: .94rem;
+}
+
+.social-page-content .social-discover-search {
+    display: flex;
+    min-height: 52px;
+    align-items: center;
+    gap: 11px;
+    margin-bottom: 25px;
+    padding: 5px 6px 5px 16px;
+    border: 1px solid #e8e6ed;
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0 7px 22px rgba(37, 31, 47, .045);
+    animation: feed-rise-in .48s .04s ease both;
+}
+
+.social-page-content .social-discover-search > i {
+    color: #9a92a4;
+    font-size: .95rem;
+}
+
+.social-page-content .social-discover-search .form-control {
+    min-width: 0;
+    height: 40px;
+    padding: 0;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.social-page-content .social-discover-search button {
+    min-height: 40px;
+    padding: 0 17px;
+    color: #fff;
+    border: 0;
+    border-radius: 10px;
+    background: linear-gradient(110deg, #7741b8, #c13584);
+    font-size: .84rem;
+    font-weight: 750;
+    transition: filter .18s ease, transform .18s ease;
+}
+
+.social-page-content .social-discover-search button:hover {
+    filter: brightness(.95);
+    transform: translateY(-1px);
+}
+
+.social-page-content .social-profile-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+    gap: 16px;
+}
+
+.social-page-content .social-person-card {
+    position: relative;
+    overflow: hidden;
+    padding: 24px 18px 18px;
+    border-color: #e9e7ed;
+    border-radius: 18px;
+    box-shadow: 0 10px 28px rgba(37, 31, 47, .055);
+    animation: feed-rise-in .48s ease both;
+    transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+
+.social-page-content .social-person-card::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #feda75, #d62976, #962fbf);
+    content: "";
+    transform: scaleX(.3);
+    transform-origin: center;
+    transition: transform .24s ease;
+}
+
+.social-page-content .social-person-card:hover {
+    border-color: #e0d5ea;
+    box-shadow: 0 16px 36px rgba(64, 42, 84, .11);
+    transform: translateY(-4px);
+}
+
+.social-page-content .social-person-card:hover::before {
+    transform: scaleX(1);
+}
+
+.social-page-content .social-person-card:nth-child(3n + 2) {
+    animation-delay: 60ms;
+}
+
+.social-page-content .social-person-card:nth-child(3n) {
+    animation-delay: 120ms;
+}
+
+.social-page-content .social-person-card .social-person-avatar {
+    width: 96px;
+    height: 96px;
+    margin-bottom: 10px;
+    border: 3px solid transparent;
+    background:
+        linear-gradient(#fff, #fff) padding-box,
+        linear-gradient(135deg, #feda75, #fa7e1e, #d62976, #962fbf) border-box;
+    box-shadow: 0 7px 18px rgba(61, 43, 74, .12);
+    transition: transform .28s ease;
+}
+
+.social-page-content .social-person-card:hover .social-person-avatar {
+    transform: scale(1.06) rotate(-2deg);
+}
+
+.social-page-content .social-person-eyebrow {
+    margin-bottom: 4px;
+    color: #a279ad;
+    font-size: .64rem;
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+
+.social-page-content .social-person-card h2 {
+    max-width: 100%;
+    margin: 0 0 2px;
+    color: #2f2a37;
+    font-size: 1.05rem;
+}
+
+.social-page-content .social-person-card .social-person-handle {
+    margin: 0 0 13px;
+    color: #8c8793;
+    font-size: .8rem;
+}
+
+.social-page-content .social-person-phone {
+    display: flex;
+    width: 100%;
+    min-height: 55px;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 16px;
+    padding: 9px 11px;
+    color: #86569b;
+    border: 1px solid #f0eaf4;
+    border-radius: 11px;
+    background: #fcfaff;
+    text-align: left;
+}
+
+.social-page-content .social-person-phone > i {
+    display: grid;
+    width: 32px;
+    height: 32px;
+    flex: 0 0 32px;
+    place-items: center;
+    border-radius: 9px;
+    background: #f2eafa;
+    font-size: .8rem;
+}
+
+.social-page-content .social-person-phone > span {
+    display: grid;
+    min-width: 0;
+    gap: 2px;
+}
+
+.social-page-content .social-person-phone small {
+    color: #8b8492;
+    font-size: .67rem;
+}
+
+.social-page-content .social-person-phone strong {
+    overflow: hidden;
+    color: #403947;
+    font-size: .82rem;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.social-page-content .social-person-actions {
+    gap: 8px;
+}
+
+.social-page-content .social-person-actions .btn {
+    display: inline-flex;
+    min-height: 38px;
+    flex: 1 1 105px;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin: 0;
+    padding: 7px 9px;
+    border-radius: 10px !important;
+    font-size: .78rem;
+}
+
+.social-page-content .social-person-actions .social-person-view-btn {
+    color: #57496b;
+    border: 1px solid #e9e4ef;
+    background: #fff;
+}
+
+.social-page-content .social-person-actions .social-person-view-btn:hover {
+    color: #7545a5;
+    border-color: #d7c6e7;
+    background: #faf7fd;
+}
+
+.social-page-content .social-person-actions .social-person-follow-btn {
+    color: #fff;
+    background: linear-gradient(110deg, #7741b8, #c13584);
+}
+
+.social-page-content .social-person-actions .social-person-following-btn {
+    color: #514a5c;
+    border: 1px solid #e8e6ed;
+    background: #f7f6f9;
+}
+
+.social-page-content .social-discover-empty {
+    grid-column: 1 / -1;
+    padding: 40px 20px;
+    border: 1px dashed #ded9e5;
+    border-radius: 18px;
+    background: #fff;
+    text-align: center;
+}
+
+.social-page-content .social-discover-empty > span {
+    display: grid;
+    width: 54px;
+    height: 54px;
+    margin: 0 auto 12px;
+    place-items: center;
+    color: #8a58af;
+    border-radius: 17px;
+    background: #f3edfb;
+    font-size: 1.25rem;
+}
+
+.social-page-content .social-discover-empty h2 {
+    margin: 0 0 4px;
+    color: #383341;
+    font-size: 1.05rem;
+}
+
+.social-page-content .social-discover-empty p {
+    margin: 0;
+    color: #85818d;
+    font-size: .86rem;
+}
+
 .social-page-content .feed-page {
     min-height: 70vh;
     padding: clamp(24px, 4vw, 48px) 16px 64px;
     color: #262626;
-    background:
-        radial-gradient(ellipse at 50% 0, rgba(106, 85, 207, .07), transparent 34rem),
-        #f7f8fc;
+    background: #fafafa;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     text-align: left;
 }
 
 .social-page-content .feed-header,
 .social-page-content .feed-card {
-    width: min(100%, 680px);
+    width: min(100%, 640px);
     margin-right: auto;
     margin-left: auto;
 }
@@ -386,12 +1641,12 @@
 .social-page-content .feed-card {
     overflow: hidden;
     margin-bottom: 24px;
-    border: 1px solid #e6e8ef;
-    border-radius: 16px;
+    border: 1px solid #dbdbdb;
+    border-radius: 12px;
     background: #fff;
-    box-shadow: 0 8px 26px rgba(37, 48, 78, .055);
+    box-shadow: 0 5px 18px rgba(0, 0, 0, .035);
     animation: feed-rise-in .5s ease both;
-    transition: box-shadow .22s ease, transform .22s ease;
+    transition: box-shadow .22s ease;
 }
 
 .social-page-content .feed-card:nth-of-type(2) {
@@ -407,8 +1662,7 @@
 }
 
 .social-page-content .feed-card:hover {
-    box-shadow: 0 14px 36px rgba(37, 48, 78, .11);
-    transform: translateY(-3px);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, .075);
 }
 
 .social-page-content .feed-card-header {
@@ -456,24 +1710,24 @@
 .social-page-content .feed-media {
     display: flex;
     width: 100%;
-    min-height: 220px;
+    aspect-ratio: 4 / 5;
+    max-height: min(720px, 76vh);
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    background:
-        radial-gradient(ellipse at center, #fff, #f1f2f7);
+    background: #111;
 }
 
 .social-page-content .feed-media img,
 .social-page-content .feed-media video {
     display: block;
     width: 100%;
-    max-height: 560px;
+    height: 100%;
+    max-height: 100%;
     object-fit: contain;
 }
 
 .social-page-content .feed-media img {
-    height: auto;
     transition: transform .35s ease;
 }
 
@@ -482,15 +1736,127 @@
 }
 
 .social-page-content .feed-media video {
-    height: auto;
+    background: #111;
+}
+
+.social-page-content .feed-carousel {
+    position: relative;
+    overflow: hidden;
     background: #171923;
+}
+
+.social-page-content .feed-carousel .feed-media {
+    max-height: min(720px, 76vh);
+}
+
+.social-page-content .feed-carousel .carousel-indicators {
+    right: auto;
+    bottom: 12px;
+    left: 50%;
+    z-index: 3;
+    display: flex;
+    width: max-content;
+    align-items: center;
+    gap: 4px;
+    margin: 0;
+    padding: 5px;
+    border: 1px solid rgba(255, 255, 255, .26);
+    border-radius: 999px;
+    background: rgba(20, 20, 20, .58);
+    transform: translateX(-50%);
+    backdrop-filter: blur(10px);
+}
+
+.social-page-content .feed-carousel .carousel-indicators li {
+    display: inline-flex;
+    width: auto;
+    height: 28px;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin: 0;
+    padding: 0 10px;
+    border: 0;
+    border-radius: 999px;
+    color: rgba(255, 255, 255, .82);
+    background: transparent;
+    cursor: pointer;
+    font-size: .73rem;
+    font-weight: 700;
+    text-indent: 0;
+    opacity: 1;
+    transition: color .18s ease, background .18s ease, transform .18s ease;
+}
+
+.social-page-content .feed-carousel .carousel-indicators li.active {
+    color: #262626;
+    background: #fff;
+}
+
+.social-page-content .feed-carousel .carousel-indicators li:hover {
+    transform: scale(1.04);
+}
+
+.social-page-content .feed-carousel .carousel-control-prev,
+.social-page-content .feed-carousel .carousel-control-next {
+    z-index: 2;
+    width: 15%;
+    opacity: 1;
+}
+
+.social-page-content .feed-carousel-arrow {
+    display: grid;
+    width: 38px;
+    height: 38px;
+    place-items: center;
+    color: #262626;
+    background: rgba(255, 255, 255, .92);
+    border: 1px solid rgba(255, 255, 255, .35);
+    border-radius: 50%;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .16);
+    transition: transform .18s ease, background .18s ease;
+}
+
+.social-page-content .feed-carousel .carousel-control-prev:hover,
+.social-page-content .feed-carousel .carousel-control-next:hover {
+    text-decoration: none;
+}
+
+.social-page-content .feed-carousel .carousel-control-prev:hover .feed-carousel-arrow,
+.social-page-content .feed-carousel .carousel-control-next:hover .feed-carousel-arrow {
+    background: #fff;
+    transform: scale(1.08);
+}
+
+.social-page-content .feed-edit-action {
+    gap: 7px;
+    padding: 7px 11px;
+    color: #5146a7;
+    background: #f0edff;
+    border-radius: 999px;
+    font-size: .88rem;
+    font-weight: 700;
+}
+
+.social-page-content .feed-edit-action:hover {
+    color: #393078;
+    background: #e5e0ff;
+    text-decoration: none;
+}
+
+.social-page-content .feed-delete-action {
+    color: #d84a68;
+}
+
+.social-page-content .feed-delete-action:hover {
+    color: #b9304e;
 }
 
 .social-page-content .feed-actions {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    padding: .8rem 1rem .25rem;
+    gap: 15px;
+    padding: .8rem 1rem .3rem;
 }
 
 .social-page-content .feed-action {
@@ -498,14 +1864,59 @@
     align-items: center;
     justify-content: center;
     color: #262626;
-    font-size: 1.45rem;
+    font-size: 1.35rem;
     line-height: 1;
     text-decoration: none;
+    transition: color .18s ease, transform .18s ease;
 }
 
 .social-page-content .feed-action:hover {
     color: #737373;
     text-decoration: none;
+    transform: scale(1.08);
+}
+
+.social-page-content .feed-like-button {
+    position: relative;
+    width: 30px;
+    height: 30px;
+    color: #262626;
+}
+
+.social-page-content .feed-like-button .fa-heart {
+    position: relative;
+    z-index: 1;
+    font-size: 1.55rem;
+}
+
+.social-page-content .feed-like-button.is-liked,
+.social-page-content .feed-like-button:hover {
+    color: #ed4956;
+}
+
+.social-page-content .feed-like-button.is-animating .fa-heart {
+    animation: feed-heart-pop .52s cubic-bezier(.2, .8, .25, 1.35);
+}
+
+.social-page-content .feed-like-button.is-animating::after {
+    position: absolute;
+    inset: 0;
+    border: 2px solid rgba(237, 73, 86, .65);
+    border-radius: 50%;
+    content: "";
+    animation: feed-heart-ring .52s ease-out both;
+}
+
+@keyframes feed-heart-pop {
+    0% { transform: scale(1); }
+    35% { transform: scale(1.5) rotate(-8deg); }
+    65% { transform: scale(.88) rotate(5deg); }
+    100% { transform: scale(1); }
+}
+
+@keyframes feed-heart-ring {
+    0% { opacity: .8; transform: scale(.55); }
+    100% { opacity: 0; transform: scale(1.65); }
 }
 
 .social-page-content .feed-action .text-danger,
@@ -515,7 +1926,7 @@
 
 .social-page-content .feed-likes {
     margin: 0;
-    padding: 0 1rem .9rem;
+    padding: 0 1rem .75rem;
     color: #262626;
     font-size: .9rem;
     font-weight: 700;
@@ -534,6 +1945,267 @@
     animation: feed-rise-in .45s ease both;
 }
 
+.social-page-content .my-posts-page {
+    max-width: 1160px;
+}
+
+.social-page-content .my-posts-heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 24px;
+    animation: feed-rise-in .45s ease both;
+}
+
+.social-page-content .my-posts-eyebrow {
+    display: block;
+    margin-bottom: 6px;
+    color: #7665d5;
+    font-size: .73rem;
+    font-weight: 800;
+    letter-spacing: .13em;
+}
+
+.social-page-content .my-posts-heading h1 {
+    margin: 0 0 6px;
+    color: #252d45;
+    font-size: clamp(1.8rem, 4vw, 2.45rem);
+    font-weight: 800;
+    letter-spacing: -.04em;
+    text-align: left;
+    text-transform: none;
+}
+
+.social-page-content .my-posts-heading p {
+    margin: 0;
+    color: #778096;
+}
+
+.social-page-content .my-posts-create {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.social-page-content .my-posts-search {
+    display: flex;
+    max-width: 560px;
+    align-items: center;
+    gap: 11px;
+    margin-bottom: 24px;
+    padding: 6px 6px 6px 15px;
+    border: 1px solid #e6e9f1;
+    border-radius: 13px;
+    background: #fff;
+    box-shadow: 0 6px 20px rgba(37, 48, 78, .045);
+}
+
+.social-page-content .my-posts-search > i {
+    color: #858da0;
+}
+
+.social-page-content .my-posts-search input {
+    width: 100%;
+    min-width: 0;
+    min-height: 40px;
+    padding: 8px 0;
+    color: #29334b;
+    background: transparent;
+    border: 0;
+    outline: none;
+}
+
+.social-page-content .my-posts-search input:focus {
+    box-shadow: none !important;
+}
+
+.social-page-content .my-posts-search button {
+    flex: 0 0 auto;
+}
+
+.social-page-content .my-posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr));
+    align-items: stretch;
+    gap: 22px;
+}
+
+.social-page-content .my-post-card {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid #e6e9f1;
+    border-radius: 17px;
+    background: #fff;
+    box-shadow: 0 9px 26px rgba(37, 48, 78, .065);
+    animation: feed-rise-in .45s ease both;
+    transition: box-shadow .22s ease, transform .22s ease;
+}
+
+.social-page-content .my-post-card:nth-child(3n + 2) {
+    animation-delay: 70ms;
+}
+
+.social-page-content .my-post-card:nth-child(3n) {
+    animation-delay: 130ms;
+}
+
+.social-page-content .my-post-card:hover {
+    box-shadow: 0 16px 36px rgba(37, 48, 78, .12);
+    transform: translateY(-4px);
+}
+
+.social-page-content .my-post-card-media {
+    position: relative;
+    display: grid;
+    min-height: 190px;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    place-items: center;
+    background:
+        radial-gradient(ellipse at center, #fff, #eef0f7);
+}
+
+.social-page-content .my-post-card-media img,
+.social-page-content .my-post-card-media video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-height: 330px;
+    object-fit: cover;
+}
+
+.social-page-content .my-post-card-media video {
+    background: #171923;
+    object-fit: contain;
+}
+
+.social-page-content .my-post-card:hover .my-post-card-media img {
+    transform: scale(1.035);
+}
+
+.social-page-content .my-post-card-media img {
+    transition: transform .3s ease;
+}
+
+.social-page-content .my-post-card-placeholder {
+    display: grid;
+    width: 68px;
+    height: 68px;
+    place-items: center;
+    color: #fff;
+    background: linear-gradient(135deg, #8270e8, #4d9bd7);
+    border-radius: 20px;
+    font-size: 1.65rem;
+}
+
+.social-page-content .my-post-media-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    padding: 6px 10px;
+    color: #fff;
+    background: rgba(32, 35, 57, .78);
+    border: 1px solid rgba(255, 255, 255, .2);
+    border-radius: 999px;
+    font-size: .72rem;
+    font-weight: 700;
+    line-height: 1;
+    backdrop-filter: blur(8px);
+}
+
+.social-page-content .my-post-card-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 17px;
+}
+
+.social-page-content .my-post-card-date {
+    margin-bottom: 8px;
+    color: #828a9c;
+    font-size: .79rem;
+    font-weight: 600;
+}
+
+.social-page-content .my-post-card-body h2 {
+    display: -webkit-box;
+    overflow: hidden;
+    margin: 0 0 8px;
+    color: #283149;
+    font-size: 1.08rem;
+    font-weight: 750;
+    line-height: 1.4;
+    text-align: left;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.social-page-content .my-post-card-caption {
+    display: -webkit-box;
+    overflow: hidden;
+    min-height: 44px;
+    margin: 0 0 16px;
+    color: #697389;
+    font-size: .88rem;
+    line-height: 1.55;
+    text-align: left;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.social-page-content .my-post-card-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin-top: auto;
+    padding-top: 2px;
+}
+
+.social-page-content .my-post-card-actions .btn {
+    min-height: 36px;
+    padding: 8px 11px;
+}
+
+.social-page-content .my-posts-empty {
+    grid-column: 1 / -1;
+    padding: clamp(28px, 6vw, 54px) 20px;
+    border: 1px dashed #d8dced;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, .8);
+    text-align: center;
+    animation: feed-rise-in .45s ease both;
+}
+
+.social-page-content .my-posts-empty-icon {
+    display: grid;
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 15px;
+    place-items: center;
+    color: #6855cf;
+    background: #f0edff;
+    border-radius: 20px;
+    font-size: 1.6rem;
+}
+
+.social-page-content .my-posts-empty h2 {
+    margin: 0 0 7px;
+    color: #283149;
+    font-size: 1.25rem;
+    font-weight: 750;
+    text-align: center;
+}
+
+.social-page-content .my-posts-empty p {
+    margin-bottom: 18px;
+    color: #778096;
+}
+
 @keyframes feed-rise-in {
     from {
         opacity: 0;
@@ -548,16 +2220,12 @@
 
 @media (min-width: 768px) {
     .social-page-content .feed-card {
-        border-radius: 18px;
-    }
-
-    .social-page-content .feed-media {
-        min-height: 300px;
+        border-radius: 14px;
     }
 
     .social-page-content .feed-media img,
     .social-page-content .feed-media video {
-        max-height: min(560px, 68vh);
+        max-height: 100%;
     }
 }
 
@@ -565,12 +2233,17 @@
     .social-page-content .feed-header,
     .social-page-content .feed-card,
     .social-page-content .feed-empty {
-        width: min(100%, 740px);
+        width: min(100%, 640px);
     }
 
     .social-page-content .feed-media img,
     .social-page-content .feed-media video {
-        max-height: min(600px, 68vh);
+        max-height: 100%;
+    }
+
+    .social-page-content .feed-carousel .feed-media img,
+    .social-page-content .feed-carousel .feed-media video {
+        max-height: 100%;
     }
 }
 
@@ -606,6 +2279,246 @@
     line-height: 1.7;
 }
 
+.social-delete-page {
+    display: grid;
+    min-height: calc(100vh - 90px);
+    place-items: center;
+    padding: clamp(20px, 5vw, 56px) 16px;
+    background:
+        radial-gradient(ellipse at 50% 0, rgba(217, 61, 93, .10), transparent 30rem),
+        #fafafa;
+}
+
+.social-delete-card {
+    width: min(100%, 520px);
+    padding: clamp(24px, 5vw, 42px);
+    border: 1px solid #ececf0;
+    border-radius: 22px;
+    background: #fff;
+    box-shadow: 0 20px 60px rgba(37, 31, 47, .10);
+    text-align: center;
+    animation: feed-rise-in .42s ease both;
+}
+
+.social-delete-icon {
+    display: grid;
+    width: 62px;
+    height: 62px;
+    margin: 0 auto 15px;
+    place-items: center;
+    color: #d83a58;
+    border: 1px solid #ffe0e5;
+    border-radius: 20px;
+    background: #fff1f3;
+    font-size: 1.35rem;
+    animation: delete-icon-in .45s cubic-bezier(.2, .8, .25, 1.25) both;
+}
+
+@keyframes delete-icon-in {
+    from { opacity: 0; transform: scale(.75) rotate(-8deg); }
+    to { opacity: 1; transform: scale(1) rotate(0); }
+}
+
+.social-delete-eyebrow {
+    display: block;
+    margin-bottom: 7px;
+    color: #c24a60;
+    font-size: .72rem;
+    font-weight: 800;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+}
+
+.social-delete-card h1 {
+    margin: 0 0 9px;
+    color: #262626;
+    font-size: clamp(1.55rem, 5vw, 2rem);
+    font-weight: 800;
+    letter-spacing: -.04em;
+}
+
+.social-delete-intro {
+    max-width: 390px;
+    margin: 0 auto 22px;
+    color: #737373;
+    font-size: .9rem;
+    line-height: 1.6;
+}
+
+.social-delete-post {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px;
+    border: 1px solid #efeff2;
+    border-radius: 15px;
+    background: #fcfcfd;
+    text-align: left;
+}
+
+.social-delete-thumbnail {
+    display: grid;
+    width: 78px;
+    height: 86px;
+    flex: 0 0 78px;
+    place-items: center;
+    overflow: hidden;
+    border-radius: 10px;
+    background: #f0eff5;
+    object-fit: cover;
+}
+
+.social-delete-video,
+.social-delete-text {
+    color: #6956c9;
+    background: linear-gradient(145deg, #f3f0ff, #e8e4fb);
+    font-size: 1.2rem;
+}
+
+.social-delete-video i {
+    display: grid;
+    width: 34px;
+    height: 34px;
+    place-items: center;
+    color: #fff;
+    border-radius: 50%;
+    background: rgba(42, 34, 79, .72);
+    font-size: .78rem;
+}
+
+.social-delete-post-info {
+    min-width: 0;
+}
+
+.social-delete-post-info h2 {
+    overflow: hidden;
+    margin: 0 0 5px;
+    color: #262626;
+    font-size: .96rem;
+    font-weight: 750;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.social-delete-post-info p {
+    display: -webkit-box;
+    overflow: hidden;
+    margin: 0 0 7px;
+    color: #737373;
+    font-size: .82rem;
+    line-height: 1.45;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.social-delete-post-info > span {
+    color: #8e8e8e;
+    font-size: .74rem;
+}
+
+.social-delete-post-info > span i {
+    margin-right: 4px;
+}
+
+.social-delete-owner {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    margin: 14px 0 22px;
+    padding: 12px 14px;
+    border-radius: 13px;
+    background: #f7f6fc;
+    text-align: left;
+}
+
+.social-delete-owner-avatar {
+    display: grid;
+    width: 40px;
+    height: 40px;
+    flex: 0 0 40px;
+    place-items: center;
+    color: #fff;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #8270e8, #d62976);
+}
+
+.social-delete-owner > div {
+    display: grid;
+    min-width: 0;
+    gap: 2px;
+}
+
+.social-delete-owner-label {
+    color: #8e8e8e;
+    font-size: .7rem;
+}
+
+.social-delete-owner strong {
+    overflow: hidden;
+    color: #262626;
+    font-size: .86rem;
+    text-overflow: ellipsis;
+}
+
+.social-delete-owner small {
+    color: #737373;
+    font-size: .72rem;
+}
+
+.social-delete-form {
+    display: grid;
+    gap: 10px;
+}
+
+.social-delete-confirm,
+.social-delete-cancel {
+    display: inline-flex;
+    min-height: 46px;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border-radius: 11px;
+    font-size: .9rem;
+    font-weight: 750;
+    transition: background .18s ease, box-shadow .18s ease, transform .18s ease;
+}
+
+.social-delete-confirm {
+    color: #fff;
+    border: 0;
+    background: linear-gradient(110deg, #d83a58, #bd2949);
+    box-shadow: 0 7px 16px rgba(216, 58, 88, .2);
+}
+
+.social-delete-confirm:hover {
+    background: linear-gradient(110deg, #c82f4d, #aa1f3e);
+    box-shadow: 0 9px 20px rgba(216, 58, 88, .27);
+    transform: translateY(-1px);
+}
+
+.social-delete-cancel {
+    color: #4a4660;
+    border: 1px solid #e8e7ed;
+    background: #fff;
+}
+
+.social-delete-cancel:hover {
+    color: #393078;
+    border-color: #cbc5ed;
+    background: #faf9ff;
+    text-decoration: none;
+}
+
+.social-delete-footnote {
+    margin: 16px 0 0;
+    color: #9898a0;
+    font-size: .72rem;
+}
+
+.social-delete-footnote i {
+    margin-right: 4px;
+}
+
 @media (min-width: 576px) {
     .social-page-content .feed-page {
         padding: 2.5rem 1.5rem 4rem;
@@ -617,6 +2530,120 @@
 }
 
 @media (max-width: 575.98px) {
+    .social-page-content .social-profile-banner {
+        min-height: 145px;
+        padding: 16px;
+        border-radius: 18px 18px 0 0;
+    }
+
+    .social-page-content .social-profile-panel {
+        border-radius: 0 0 18px 18px;
+    }
+
+    .social-page-content .social-profile-hero {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding: 0 18px 23px;
+        text-align: center;
+    }
+
+    .social-page-content .social-profile-avatar-wrap {
+        width: 132px;
+        margin-top: -66px;
+    }
+
+    .social-page-content .social-profile-identity {
+        padding-top: 0;
+    }
+
+    .social-page-content .social-profile-hero-actions {
+        justify-content: center;
+    }
+
+    .social-page-content .social-profile-details {
+        padding: 20px 16px 22px;
+        text-align: left;
+    }
+
+    .social-page-content .social-profile-fields {
+        grid-template-columns: 1fr;
+    }
+
+    .social-page-content .social-profile-fields .social-profile-field-wide {
+        grid-column: auto;
+    }
+
+    .social-page-content .social-profile-edit-page {
+        padding-right: 12px !important;
+        padding-left: 12px !important;
+    }
+
+    .social-page-content .social-profile-edit-card {
+        padding: 22px 17px;
+        border-radius: 18px;
+    }
+
+    .social-page-content .social-profile-edit-actions > * {
+        flex: 1 1 100%;
+    }
+
+    .social-delete-page {
+        min-height: calc(100vh - 70px);
+        padding: 22px 12px 34px;
+    }
+
+    .social-delete-card {
+        padding: 24px 18px;
+        border-radius: 18px;
+    }
+
+    .social-delete-thumbnail {
+        width: 68px;
+        height: 78px;
+        flex-basis: 68px;
+    }
+
+    .social-page-content .social-post-detail-page {
+        padding: 18px 10px 36px !important;
+    }
+
+    .social-page-content .social-detail-card,
+    .social-page-content .social-detail-comments {
+        margin-bottom: 14px;
+        border-radius: 12px;
+    }
+
+    .social-page-content .social-detail-media {
+        max-height: 72vh;
+    }
+
+    .social-page-content .social-detail-header {
+        min-height: 62px;
+        padding: 10px 12px;
+    }
+
+    .social-page-content .social-detail-arrow {
+        width: 32px;
+        height: 32px;
+    }
+
+    .social-page-content .social-detail-caption {
+        padding: 15px 14px 13px;
+    }
+
+    .social-page-content .social-detail-comments {
+        padding: 18px 14px;
+    }
+
+    .social-page-content .social-detail-actions {
+        padding-right: 14px;
+        padding-left: 14px;
+    }
+
+    .social-page-content .social-detail-comment-form .btn {
+        width: 100%;
+    }
+
     .social-page-content .feed-page {
         padding: 1.25rem .65rem 2rem;
     }
@@ -635,22 +2662,143 @@
         padding: 12px;
     }
 
-    .social-page-content .feed-media {
-        min-height: 180px;
-    }
-
-    .social-page-content .feed-media img,
-    .social-page-content .feed-media video {
-        max-height: 58vh;
+    .social-page-content .feed-carousel-arrow {
+        width: 32px;
+        height: 32px;
     }
 
     .social-page-content .feed-search .btn {
         padding-right: .75rem;
         padding-left: .75rem;
     }
+
+    .social-page-content .my-posts-heading {
+        align-items: stretch;
+        margin-bottom: 18px;
+    }
+
+    .social-page-content .my-posts-create {
+        width: 100%;
+        margin-top: 0 !important;
+    }
+
+    .social-page-content .my-posts-search {
+        gap: 8px;
+        margin-bottom: 18px;
+    }
+
+    .social-page-content .my-posts-search button {
+        padding-right: 11px;
+        padding-left: 11px;
+    }
+
+    .social-page-content .my-posts-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .social-page-content .my-post-card {
+        border-radius: 14px;
+    }
+
+    .social-page-content .my-post-card-media {
+        min-height: 175px;
+        aspect-ratio: 4 / 3;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
+    .social-page-content .social-discover-heading,
+    .social-page-content .social-discover-search,
+    .social-page-content .social-person-card {
+        animation: none;
+    }
+
+    .social-page-content .social-discover-search button,
+    .social-page-content .social-person-card,
+    .social-page-content .social-person-card::before,
+    .social-page-content .social-person-card .social-person-avatar {
+        transition: none;
+    }
+
+    .social-page-content .social-discover-search button:hover,
+    .social-page-content .social-person-card:hover,
+    .social-page-content .social-person-card:hover .social-person-avatar {
+        transform: none;
+    }
+
+    .social-page-content .social-profile-shell,
+    .social-page-content .social-profile-banner::after,
+    .social-page-content .social-profile-banner-orb,
+    .social-page-content .social-profile-hero,
+    .social-page-content .social-profile-avatar-wrap,
+    .social-page-content .social-profile-online-dot,
+    .social-page-content .social-profile-details,
+    .social-page-content .social-profile-edit-card,
+    .social-page-content .social-profile-edit-preview strong.is-previewing,
+    .social-page-content .social-profile-edit-avatar-wrap img.is-previewing {
+        animation: none;
+    }
+
+    .social-page-content .social-profile-avatar,
+    .social-page-content .social-profile-fields .social-profile-field,
+    .social-page-content .social-profile-edit-back,
+    .social-page-content .social-profile-edit-btn,
+    .social-page-content .social-profile-posts-btn,
+    .social-page-content .social-profile-save-btn,
+    .social-page-content .social-profile-cancel-btn {
+        transition: none;
+    }
+
+    .social-page-content .social-profile-avatar-wrap:hover .social-profile-avatar,
+    .social-page-content .social-profile-fields .social-profile-field:hover,
+    .social-page-content .social-profile-edit-back:hover,
+    .social-page-content .social-profile-edit-btn:hover,
+    .social-page-content .social-profile-posts-btn:hover,
+    .social-page-content .social-profile-save-btn:hover {
+        transform: none;
+    }
+
+    .social-delete-card,
+    .social-delete-icon {
+        animation: none;
+    }
+
+    .social-delete-confirm,
+    .social-delete-cancel {
+        transition: none;
+    }
+
+    .social-delete-confirm:hover {
+        transform: none;
+    }
+
+    .social-page-content .social-detail-card {
+        animation: none;
+    }
+
+    .social-page-content .social-detail-back,
+    .social-page-content .social-detail-edit,
+    .social-page-content .social-detail-arrow,
+    .social-page-content .social-detail-like,
+    .social-page-content .social-detail-carousel .carousel-indicators li,
+    .social-page-content .social-detail-reply {
+        transition: none;
+    }
+
+    .social-page-content .social-detail-back:hover,
+    .social-page-content .social-detail-edit:hover,
+    .social-page-content .social-detail-like:hover,
+    .social-page-content .social-detail-carousel .carousel-control-prev:hover .social-detail-arrow,
+    .social-page-content .social-detail-carousel .carousel-control-next:hover .social-detail-arrow {
+        transform: none;
+    }
+
+    .social-page-content .social-detail-like.is-animating i,
+    .social-page-content .social-detail-like.is-animating::after {
+        animation: none;
+    }
+
     .social-page-content .feed-header,
     .social-page-content .feed-card,
     .social-page-content .feed-empty {
@@ -658,12 +2806,39 @@
     }
 
     .social-page-content .feed-card,
-    .social-page-content .feed-media img {
+    .social-page-content .feed-media img,
+    .social-page-content .feed-action,
+    .social-page-content .feed-like-button .fa-heart,
+    .social-page-content .feed-like-button::after,
+    .social-page-content .feed-carousel-arrow,
+    .social-page-content .feed-carousel .carousel-indicators li {
         transition: none;
     }
 
     .social-page-content .feed-card:hover,
-    .social-page-content .feed-card:hover .feed-media img {
+    .social-page-content .feed-card:hover .feed-media img,
+    .social-page-content .feed-action:hover {
+        transform: none;
+    }
+
+    .social-page-content .feed-like-button.is-animating .fa-heart,
+    .social-page-content .feed-like-button.is-animating::after {
+        animation: none;
+    }
+
+    .social-page-content .my-post-card,
+    .social-page-content .my-posts-heading,
+    .social-page-content .my-posts-empty {
+        animation: none;
+    }
+
+    .social-page-content .my-post-card,
+    .social-page-content .my-post-card-media img {
+        transition: none;
+    }
+
+    .social-page-content .my-post-card:hover,
+    .social-page-content .my-post-card:hover .my-post-card-media img {
         transform: none;
     }
 }

@@ -11,24 +11,30 @@ from django.urls import path ,include ,reverse_lazy
 
 
 urlpatterns = [ 
-    path('home/', views.HomeView.as_view(), name='home'),
-    path('about/', views.AboutView.as_view(),name='about'),
+
     path('register/',views.register,name='register'),
-    path('activate/<uidb64>/<token>/',views.activate_account,name='activate'),
-    path('confirm/',views.confirm,name='confirm'),
     path('login/',views.user_login,name='login'),
     path('logout/',views.user_logout,name='logout'),
+
+    path('home/', views.HomeView.as_view(), name='home'),
+    path('about/', views.AboutView.as_view(),name='about'),
+    path('activate/<uidb64>/<token>/',views.activate_account,name='activate'),
+    path('confirm/',views.confirm,name='confirm'),
     path('contact/', views.contact, name='contact'),
+   
     path('userprofile/',views.userprofile,name='userprofile'),
     path('updateprofile/',views.updateprofile,name='updateprofile'),
     path('profile/edit/<int:pk>', views.MyProfileUpdateView.as_view(success_url="/social/home")),
+    
     path('mypost/create/', views.MyPostCreate.as_view(success_url="/social/mypost")),
+    path('mypost/<int:pk>/edit/', views.MyPostUpdateView.as_view(success_url=reverse_lazy('mypost_list')), name='mypost_edit'),
     path('mypost/delete/<int:pk>', views.MyPostDeleteView.as_view(success_url="/social/mypost")),
-    path('mypost/', views.MyPostListView.as_view()),
+    path('mypost/', views.MyPostListView.as_view(), name='mypost_list'),
     path('mypost/<int:pk>', views.myPostDetail),
     path('mypost/like/<int:pk>', views.like),
     path('mypost/unlike/<int:pk>', views.unlike),
     path('mypost/comment/<int:pk>', views.comment),
+   
     path('myprofile/', views.MyProfileListView.as_view()),
     path('myprofile/<int:pk>', views.MyProfileDetailView.as_view()),
     path('myprofile/follow/<int:pk>', views.follow),
