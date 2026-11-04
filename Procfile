@@ -1,1 +1,1 @@
-web: gunicorn instapro.wsgi
+web: python manage.py collectstatic --no-input && gunicorn instapro.wsgi:application

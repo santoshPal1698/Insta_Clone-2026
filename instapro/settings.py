@@ -27,13 +27,13 @@ ALLOWED_HOSTS = [
     if host.strip()
 ]
 
-# CSRF_TRUSTED_ORIGINS = [
-#     origin.strip()
-#     for origin in os.getenv(
-#         "CSRF_TRUSTED_ORIGINS", ""
-#     ).split(",")
-#     if origin.strip()
-# ]
+CSRF_TRUSTED_ORIGINS = [
+    origin.strip()
+    for origin in os.getenv(
+        "CSRF_TRUSTED_ORIGINS", ""
+    ).split(",")
+    if origin.strip()
+]
 
 DATABASES = {
     "default": {
@@ -75,6 +75,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -172,15 +173,17 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_DIRS = [BASE_DIR / "static"]
 
-STATIC_DIR = os.path.join(BASE_DIR, "static")
-
-# Add the static directory only if it exists.
-STATICFILES_DIRS = []
-
-if os.path.isdir(STATIC_DIR):
-    STATICFILES_DIRS = [STATIC_DIR]
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+    },
+}
 
 
 # =========================================================

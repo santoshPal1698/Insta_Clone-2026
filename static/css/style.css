@@ -66,36 +66,22 @@
   }
 
   .spimg {
-      background-image: url("/static/images/login.jpg");
+      background-image: url("../images/login.jpg");
       background-size: cover;
       z-index: 1;
       /*height: 100%;*/
   }
 
   .spimg2 {
-      background-image: url("/static/images/login2.jpg");
+      background-image: url("../images/login2.jpg");
       background-size: cover;
       /*height: 100%;*/
   }
 
 
 
-  .bgimag {
-      background-image: url("https://www.dpsainiflorist.com/wp-content/uploads/2015/01/dp-saini-theme-bg.jpg");
-      background-size: cover;
-  }
-
-  /*//////////////base css//////////////////// */
-
-
-
   /*//////////////contactcss//////////////////// */
 
-  .bgimag {
-      background-image: url("https://img.freepik.com/free-photo/hand-holding-man-check-sending-message-with-email-phone-blue-background_7192-1018.jpg?size=626&ext=jpg");
-      background-size: cover;
-
-  }
 
   .bgimg2 {
       background-image: url("https://www.dpsainiflorist.com/wp-content/uploads/2015/01/dp-saini-theme-bg.jpg");
@@ -117,12 +103,6 @@
       background: linear-gradient(57deg, red, pink);
       border-radius: 100px;
 
-  }
-
-
-
-  .bgimag label {
-      color: white !important;
   }
 
   #site-navbar {
