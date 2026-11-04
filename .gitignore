@@ -12,7 +12,7 @@ env/
 # Django and local database
 *.log
 # db.sqlite3
-media/
+# media/
 staticfiles/
 
 # Environment variables and secrets
