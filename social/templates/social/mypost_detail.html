@@ -21,7 +21,7 @@
                     </div>
                 </div>
                 {% if user.is_authenticated and post.uploaded_by.user_id == user.id %}
-                <a class="social-detail-edit" href="{% url 'mypost_edit' post.pk %}" aria-label="Edit post">
+                <a class="social-detail-edit" href="{% url 'mypost_edit' post.pk %}" aria-label="Edit post" data-loading-text="Opening editor...">
                     <i class="fas fa-edit" aria-hidden="true"></i><span>Edit</span>
                 </a>
                 {% endif %}
@@ -73,11 +73,11 @@
             <div class="social-detail-actions">
                 {% if user.is_authenticated %}
                     {% if liked %}
-                    <a class="social-detail-like feed-like-button is-liked" href="/social/mypost/unlike/{{ post.pk }}" id="unlike" data-unlike_id="{{ post.pk }}" aria-label="Unlike post" aria-pressed="true">
+                    <a class="social-detail-like feed-like-button is-liked" href="/social/mypost/unlike/{{ post.pk }}" id="unlike" data-unlike_id="{{ post.pk }}" aria-label="Unlike post" aria-pressed="true" data-loading-text="Removing like...">
                         <i class="fas fa-heart" aria-hidden="true"></i>
                     </a>
                     {% else %}
-                    <a class="social-detail-like feed-like-button" href="/social/mypost/like/{{ post.pk }}" id="likesp" data-like_id="{{ post.pk }}" aria-label="Like post" aria-pressed="false">
+                    <a class="social-detail-like feed-like-button" href="/social/mypost/like/{{ post.pk }}" id="likesp" data-like_id="{{ post.pk }}" aria-label="Like post" aria-pressed="false" data-loading-text="Liking post...">
                         <i class="far fa-heart" aria-hidden="true"></i>
                     </a>
                     {% endif %}
@@ -102,7 +102,7 @@
             <form action="/social/mypost/{{post.id}}" method="POST" class="social-detail-comment-form">
                 {% csrf_token %}
                 {{comment_form|crispy}}
-                <button type="submit" class="btn btn-primary"><i class="far fa-paper-plane mr-2" aria-hidden="true"></i>Add comment</button>
+                <button type="submit" class="btn btn-primary" data-loading-text="Adding comment..."><i class="far fa-paper-plane mr-2" aria-hidden="true"></i>Add comment</button>
             </form>
         {% for comment in comments %}
         <article class="social-comment social-detail-comment">
@@ -142,7 +142,7 @@
             {% csrf_token %}
             {{comment_form|crispy}}
             <input type="hidden" name="parent_id" value="{{ comment.id }}">
-            <button type="submit" class="btn btn-primary"><i class="fas fa-reply mr-2" aria-hidden="true"></i>Reply</button>
+            <button type="submit" class="btn btn-primary" data-loading-text="Sending reply..."><i class="fas fa-reply mr-2" aria-hidden="true"></i>Reply</button>
         </form>
         {% empty %}
         <p class="social-detail-no-comments">No comments yet. Be the first to join the conversation.</p>

@@ -10,7 +10,7 @@
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v6.0"></script>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
     <!-- Bootstrap CSS -->
-    <link href="{% static 'css/style.css' %}?v=20261103-navbar-ui" rel="stylesheet" />
+    <link href="{% static 'css/style.css' %}?v=20261105-global-action-loaders" rel="stylesheet" />
     <!-- <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/fontawesome.css" integrity="sha256-YC896To53D/eet6K3jAwOq67iCIK24u2Hg6CQ+026I8=" crossorigin="anonymous" />
    
@@ -28,7 +28,7 @@
     <!-- Material Design Bootstrap -->
 
     <link href="{% static 'css/mdb.min.css' %}" rel="stylesheet">
-    <link href="{% static 'css/social-ui.css' %}?v=20261104-discover-contacts-v3" rel="stylesheet">
+    <link href="{% static 'css/social-ui.css' %}?v=20261105-post-action-loader-fix" rel="stylesheet">
     <link href="{% static 'css/account-ui.css' %}?v=20261103-account-ui" rel="stylesheet">
     <title> {% block title %} {% endblock title %} </title>
 </head>
@@ -144,6 +144,7 @@
                 <nav class="site-footer-links" aria-label="Footer navigation">
                     <h2>Explore</h2>
                     <a href="{% url 'home' %}">Home</a>
+                    <a href="/social/contact/">Contact</a>
                     <a href="/social/mypost/create/">Create a post</a>
                     <a href="/social/mypost/">My posts</a>
                     <a href="/social/myprofile/">Discover people</a>
@@ -168,6 +169,8 @@
     <script src="{% static 'js/popper.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/action-loaders.js' %}?v=20261105-post-action-loader-fix"></script>
+
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/particlesjs/2.2.3/particles.min.js"></script> -->
     <!-- <script src="/static/vender/bs/js/particles.min.js"></script> -->
     <!-- particles  js all files include -->
@@ -207,7 +210,7 @@
             event.preventDefault();
             var pk = this.dataset.like_id;
             var reloadDelay = $(this).hasClass('feed-like-button') ? 520 : 0;
-            console.log('rakesh', pk)
+            // console.log('rakesh', pk)
             url = '/social/mypost/like/' + pk
             console.log('url', url)
 
@@ -231,7 +234,7 @@
             event.preventDefault();
             var pk = this.dataset.unlike_id;
             var reloadDelay = $(this).hasClass('feed-like-button') ? 520 : 0;
-            console.log('rakesh', pk)
+            // console.log('rakesh', pk)
             url = '/social/mypost/unlike/' + pk
             console.log('url', url)
             $.ajax({

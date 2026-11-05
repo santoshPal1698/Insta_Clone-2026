@@ -6,12 +6,18 @@
 
 <main class="feed-page">
     <header class="feed-header">
-        <a class="feed-create" href="/social/mypost/create">
-            <i class="fas fa-plus mr-1" aria-hidden="true"></i> Create post
+        <div class="feed-intro">
+            <span class="feed-eyebrow"><i class="fas fa-star" aria-hidden="true"></i> YOUR COMMUNITY</span>
+            <h1 class="feed-title">Your feed</h1>
+            <p class="feed-description">A fresh look at the moments shared by people you follow.</p>
+        </div>
+        <a class="feed-create" href="/social/mypost/create/">
+            <i class="fas fa-plus" aria-hidden="true"></i><span> Post</span>
         </a>
         <form class="feed-search" method="get" role="search">
+            <!-- <i class="fas fa-search feed-search-icon" aria-hidden="true"></i> -->
             <input class="form-control" placeholder="Search posts" value="{{ request.GET.si }}" type="text" name="si" aria-label="Search posts">
-            <button class="btn" type="submit">Search</button>
+            <button class="btn" type="submit"><span>Search</span><i class="fas fa-arrow-right" aria-hidden="true"></i></button>
         </form>
     </header>
 
@@ -79,20 +85,20 @@
 
         <div class="feed-actions">
             {% include 'social/like_section.html' %}
-            <a class="feed-action" href="/social/mypost/{{ n1.id }}" aria-label="View comments">
+            <a class="feed-action" href="/social/mypost/{{ n1.id }}" aria-label="View comments" data-no-loader>
                 <i class="far fa-comment" aria-hidden="true"></i>
             </a>
-            <a class="feed-action" href="http://wa.me/8839102688" aria-label="Share on WhatsApp">
+            <a class="feed-action" href="http://wa.me/+918839102688" aria-label="Share on WhatsApp">
                 <i class="fab fa-whatsapp" aria-hidden="true"></i>
             </a>
             {% if user.is_authenticated and n1.uploaded_by.user_id == user.id %}
 
-            <a class="feed-action feed-edit-action ml-auto" href="{% url 'mypost_edit' n1.id %}" aria-label="Edit your post">
+            <a class="feed-action feed-edit-action ml-auto" href="{% url 'mypost_edit' n1.id %}" aria-label="Edit your post" data-no-loader>
                 <i class="fas fa-edit" aria-hidden="true"></i><span></span>
             </a>
             {% endif %}
             {% if user.is_superuser %}
-            <a class="feed-action feed-delete-action {% if not n1.uploaded_by.user_id == user.id %}ml-auto{% endif %}" href="/social/mypost/delete/{{ n1.id }}" aria-label="Delete post">
+            <a class="feed-action feed-delete-action {% if not n1.uploaded_by.user_id == user.id %}ml-auto{% endif %}" href="/social/mypost/delete/{{ n1.id }}" aria-label="Delete post" data-no-loader>
                 <i class="fas fa-trash" aria-hidden="true"></i>
             </a>
             {% endif %}
@@ -100,7 +106,19 @@
         <p class="feed-likes">Likes {{ n1.likedno }}</p>
     </article>
     {% empty %}
-    <p class="feed-empty">No posts found. Try another search or check back later.</p>
+    <section class="feed-empty" aria-live="polite">
+        <span class="feed-empty-icon" aria-hidden="true"><i class="far fa-images"></i></span>
+        <span class="feed-eyebrow">YOUR FEED IS WAITING</span>
+        <h2>{% if request.GET.si %}No posts match that search{% else %}Your feed is ready for its first story{% endif %}</h2>
+        <p>{% if request.GET.si %}Try another search, or clear your search to see the latest posts.{% else %}Follow people to see their latest moments here, or share a post of your own.{% endif %}</p>
+        <div class="feed-empty-actions">
+            {% if request.GET.si %}
+            <a class="feed-empty-primary" href="{% url 'home' %}"><i class="fas fa-times" aria-hidden="true"></i> Clear search</a>
+            {% endif %}
+            <a class="feed-empty-secondary" href="/social/myprofile/"><i class="fas fa-users" aria-hidden="true"></i> Discover people</a>
+            <a class="feed-empty-primary" href="/social/mypost/create/"><i class="fas fa-plus" aria-hidden="true"></i> Create a post</a>
+        </div>
+    </section>
     {% endfor %}
 </main>
 {% endblock %}

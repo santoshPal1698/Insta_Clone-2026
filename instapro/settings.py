@@ -3,6 +3,8 @@ import os
 from django.contrib.messages import constants as messages
 from pathlib import Path
 from dotenv import load_dotenv
+from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy as _
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -49,6 +51,7 @@ DATABASES = {
 # =========================================================
 
 INSTALLED_APPS = [
+    "unfold",
     # Django default applications
     "django.contrib.admin",
     "django.contrib.auth",
@@ -252,3 +255,96 @@ MESSAGE_TAGS = {
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+
+
+
+# =========================================================
+# UNFOLD ADMIN CONFIGURATION
+# =========================================================
+
+UNFOLD = {
+    "SITE_TITLE": "SP-INSTA Admin",
+    "SITE_HEADER": "SP-INSTA",
+    "SITE_SUBHEADER": "Social platform management",
+    "SITE_URL": "/",
+    "SITE_SYMBOL": "dashboard",
+    "DASHBOARD_CALLBACK": "social.admin.dashboard_callback",
+
+    "SHOW_HISTORY": True,
+    "SHOW_VIEW_ON_SITE": True,
+    "COMMAND": {
+        "search_models": True,
+        "show_history": True,
+    },
+    "SIDEBAR": {
+        "show_search": True,
+        "show_all_applications": True,
+        "navigation": [
+            {
+                "title": _("Overview"),
+                "separator": True,
+                "collapsible": False,
+                "items": [
+                    {
+                        "title": _("Dashboard"),
+                        "icon": "dashboard",
+                        "link": reverse_lazy("admin:index"),
+                    },
+                ],
+            },
+            {
+                "title": _("Social"),
+                "separator": True,
+                "collapsible": True,
+                "items": [
+                    {
+                        "title": _("Posts"),
+                        "icon": "photo_library",
+                        "link": reverse_lazy("admin:social_mypost_changelist"),
+                    },
+                    {
+                        "title": _("Profiles"),
+                        "icon": "group",
+                        "link": reverse_lazy("admin:social_myprofile_changelist"),
+                    },
+                    {
+                        "title": _("Comments"),
+                        "icon": "chat",
+                        "link": reverse_lazy("admin:social_comment_changelist"),
+                    },
+                    {
+                        "title": _("Follows"),
+                        "icon": "person_add",
+                        "link": reverse_lazy("admin:social_followuser_changelist"),
+                    },
+                    {
+                        "title": _("Likes"),
+                        "icon": "favorite",
+                        "link": reverse_lazy("admin:social_postlike_changelist"),
+                    },
+                    {
+                        "title": _("Contact messages"),
+                        "icon": "mail",
+                        "link": reverse_lazy("admin:social_contact_changelist"),
+                    },
+                ],
+            },
+        ],
+    },
+
+    "COLORS": {
+        "primary": {
+            "50": "239 246 255",
+            "100": "219 234 254",
+            "200": "191 219 254",
+            "300": "147 197 253",
+            "400": "96 165 250",
+            "500": "59 130 246",
+            "600": "37 99 235",
+            "700": "29 78 216",
+            "800": "30 64 175",
+            "900": "30 58 138",
+            "950": "23 37 84",
+        },
+    },
+}

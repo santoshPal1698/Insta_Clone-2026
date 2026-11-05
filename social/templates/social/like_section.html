@@ -1,6 +1,6 @@
 	     
 	     {% if n1.liked %}
-            <a class="feed-action feed-like-button is-liked" href='/social/mypost/unlike/{{n1.id}}' id="unlike" data-unlike_id="{{n1.id}}" aria-label="Unlike post" aria-pressed="true"><span class="fa fa-heart" aria-hidden="true"></span></a>
+            <a class="feed-action feed-like-button is-liked" href='/social/mypost/unlike/{{n1.id}}' id="unlike" data-unlike_id="{{n1.id}}" aria-label="Unlike post" aria-pressed="true" data-no-loader><span class="fa fa-heart" aria-hidden="true"></span></a>
             {% else %}
-            <a class="feed-action feed-like-button" href='/social/mypost/like/{{n1.id}}' id="likesp" data-like_id="{{n1.id}}" aria-label="Like post" aria-pressed="false"><span class="far fa-heart" aria-hidden="true"></span></a>
+            <a class="feed-action feed-like-button" href='/social/mypost/like/{{n1.id}}' id="likesp" data-like_id="{{n1.id}}" aria-label="Like post" aria-pressed="false" data-no-loader><span class="far fa-heart" aria-hidden="true"></span></a>
           {% endif %}

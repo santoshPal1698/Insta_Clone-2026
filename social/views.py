@@ -354,7 +354,7 @@ def contact(request):
         if len(name)<2 or len(email)<4 or len(phone)<10 or len(content)<5:
             messages.error(request, 'Sorry ,please fill the form in a right manner')
         else:
-            contact=Cont(name=name,email=email,phone=phone,desc=content)
+            contact=Contact(name=name,email=email,phone=phone,desc=content)
             contact.save()
             messages.success(request, ' your Data submitted successfully')       
     return render(request,'social/contact.html')

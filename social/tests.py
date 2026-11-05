@@ -59,6 +59,9 @@ class MyPostUpdateViewTests(TestCase):
 
         self.assertContains(list_response, self.edit_url)
         self.assertContains(detail_response, self.edit_url)
+        self.assertContains(detail_response, 'data-loading-text="Opening editor..."')
+        self.assertContains(detail_response, 'data-loading-text="Liking post..."')
+        self.assertContains(detail_response, 'data-loading-text="Adding comment..."')
 
     def test_login_is_required_to_edit_post(self):
         response = self.client.get(self.edit_url)
@@ -100,3 +103,10 @@ class HomeFeedMediaTests(TestCase):
             reverse("mypost_edit", kwargs={"pk": self.photo_video_post.pk}),
         )
         self.assertNotContains(response, f'id="post-media-{self.photo_post.pk}"')
+
+    def test_feed_post_actions_opt_out_of_loaders(self):
+        response = self.client.get(reverse("home"))
+
+        self.assertContains(response, 'aria-label="Like post" aria-pressed="false" data-no-loader')
+        self.assertContains(response, 'aria-label="View comments" data-no-loader')
+        self.assertContains(response, 'aria-label="Edit your post" data-no-loader')

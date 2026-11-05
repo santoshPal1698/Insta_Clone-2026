@@ -41,7 +41,7 @@
 
         <form method="post" class="social-delete-form">
             {% csrf_token %}
-            <button type="submit" class="social-delete-confirm">
+            <button type="submit" class="social-delete-confirm" data-loading-text="Deleting post...">
                 <i class="fas fa-trash-alt" aria-hidden="true"></i> Delete post
             </button>
             <a href="{% url 'mypost_list' %}" class="social-delete-cancel">

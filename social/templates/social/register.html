@@ -34,7 +34,12 @@
                     {% csrf_token %}
                     {{ form|crispy }}
                     <button class="btn auth-submit" type="submit">
-                        Create account <span aria-hidden="true">&rarr;</span>
+                        <span class="auth-submit-label">Create account</span>
+                        <span class="auth-submit-arrow" aria-hidden="true">&rarr;</span>
+                        <span class="auth-submit-loading" role="status" aria-live="polite">
+                            <span class="auth-submit-spinner" aria-hidden="true"></span>
+                            Creating your account...
+                        </span>
                     </button>
                 </form>
 
@@ -45,4 +50,8 @@
         </section>
     </div>
 </main>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/auth-controls.js' %}"></script>
 {% endblock %}
