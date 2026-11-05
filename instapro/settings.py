@@ -177,14 +177,16 @@ STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 
+
 STORAGES = {
     "default": {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+        "BACKEND":  "whitenoise.storage.CompressedStaticFilesStorage",
     },
 }
+
 
 if os.getenv("CLOUDINARY_URL"):
     CLOUDINARY_STORAGE = {}
@@ -199,8 +201,8 @@ else:
 # MEDIA FILE CONFIGURATION
 # =========================================================
 
-MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+# MEDIA_URL = "/media/"
+# MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # =========================================================
 # DEFAULT IMAGE FIELD CONFIGURATION
@@ -208,27 +210,22 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 DEFAULT_IMAGE_PATH = "static/django_fields/no_image.png"
 
-
 # =========================================================
 # CRISPY FORMS CONFIGURATION
 # =========================================================
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
-
 # =========================================================
 # EMAIL CONFIGURATION
 # =========================================================
-
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
-
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
@@ -253,3 +250,5 @@ MESSAGE_TAGS = {
 # =========================================================
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"

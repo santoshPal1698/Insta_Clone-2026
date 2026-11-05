@@ -2549,7 +2549,13 @@
 
     .social-page-content .social-profile-avatar-wrap {
         width: 132px;
-        margin-top: -66px;
+        margin-top: 11px;
+    }
+    .social-profile-name{
+        text-align: center !important;
+    }
+    .social-profile-banner{
+        display: none !important;
     }
 
     .social-page-content .social-profile-identity {

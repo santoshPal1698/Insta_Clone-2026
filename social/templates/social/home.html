@@ -19,7 +19,9 @@
     <article class="feed-card">
         <header class="feed-card-header">
             {% if n1.uploaded_by.pic and n1.uploaded_by.pic.name != 'Download/un.jpg' %}
-            <img class="feed-avatar" src="{{ n1.uploaded_by.pic.url }}" alt="{{ n1.uploaded_by }}'s profile">
+            <a href="{{ n1.uploaded_by.pic.url }}">
+                <img class="feed-avatar" src="{{ n1.uploaded_by.pic.url }}" alt="{{ n1.uploaded_by }}'s profile">
+            </a>
             {% else %}
             <span class="feed-avatar-placeholder" aria-hidden="true">
                 <i class="fas fa-user"></i>

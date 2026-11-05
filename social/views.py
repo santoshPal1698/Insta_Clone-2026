@@ -9,7 +9,7 @@ from django.db.models import Q
 from django.views.generic.edit import UpdateView, CreateView, DeleteView
 from django.http.response import HttpResponseRedirect
 from django.contrib import messages
-from social.models import Cont, Comment
+from social.models import Contact, Comment
 from django.http import HttpResponse, HttpResponseRedirect ,JsonResponse
 from social.forms import PostCommentForm, CommentForm 
 from social.forms import UserLogin ,SignUpForm ,updateform
@@ -39,6 +39,7 @@ from django.contrib.auth import login,logout,authenticate
 def confirm(request):
     return render(request, 'social/confirm.html')    
 
+
 @unauthenticated_user
 def register(request):
     form = SignUpForm()
@@ -55,7 +56,6 @@ def register(request):
             if form.is_valid():
                 username  = request.POST.get('username')
                 user = User.objects.create_user(username=username.lower(), password=request.POST['password'],email=request.POST['username'])
-                
                 user.myprofile.name = request.POST.get('name')
                 print('name',request.POST['name'])
                 user.myprofile.last_name = request.POST.get('last_name')
@@ -68,7 +68,7 @@ def register(request):
                 
                 # mail confirmations
                 current_site = get_current_site(request)
-                print('current_site#######################',current_site)
+                print('current_site#######################',current_site,user)
                 subject = 'Please Activate Your Account'
                 # load a template like get_template() 
                 # and calls its render() method immediately.
@@ -77,7 +77,6 @@ def register(request):
                     'domain': current_site.domain,
                     'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                     # method will generate a hash value with user related data
-                  
                     'token': account_activation_token.make_token(user),
                 })
                 to_email = form.cleaned_data.get('username')
@@ -111,7 +110,7 @@ def userprofile(request):
     form  = SignUpForm(instance=user)
     if request.method=='POST':
         form = SignUpForm(request.POST,request.FILES,instance=user)
-        if form.is_valid:
+        if form.is_valid():
             print('form is valid')
             form.save()
     context={'form':form}
@@ -179,6 +178,7 @@ class HomeView(TemplateView):
             p1.likedno = obList.count()
 
         context["mypost_list"] = postList
+        print('mypost_list all data',postList)
         return context;
 
 def comment(req,pk):

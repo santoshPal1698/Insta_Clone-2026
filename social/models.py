@@ -5,11 +5,12 @@ from django.core.validators import MinValueValidator, RegexValidator
 from django_fields import DefaultStaticImageField
 from django.dispatch import receiver
 from django.db.models.signals import post_save
-from cloudinary_storage.storage import MediaCloudinaryStorage
-from cloudinary_storage.storage import VideoMediaCloudinaryStorage
+from cloudinary_storage.storage import (MediaCloudinaryStorage,VideoMediaCloudinaryStorage)
+from cloudinary.models import CloudinaryField
 
 
-class Cont(models.Model):
+
+class Contact(models.Model):
     sno = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100,)
     email = models.CharField(max_length=90)
@@ -17,7 +18,6 @@ class Cont(models.Model):
     desc = models.TextField()
     timeStamp=models.DateTimeField(auto_now_add=True,blank=True)
 
-    
     def __str__(self):
         return  ' Name: '+self.name +'// Email id : '+self.email+ '// MOBILE NUMBER:-'+self.phone
 
@@ -27,10 +27,8 @@ class MyProfile(models.Model):
     # first_name = models.CharField(max_length=12, blank=True)
     last_name = models.CharField(max_length=12, blank=True)
     # email = models.EmailField(max_length=150)
-
     # unique email confirmations
     # email = models.EmailField(max_length=150,unique=True)
-
     user = models.OneToOneField(to=User, on_delete=models.CASCADE)
     age = models.IntegerField(default=18, validators=[MinValueValidator(18)])
     address = models.TextField(null=True, blank=True)
@@ -38,11 +36,13 @@ class MyProfile(models.Model):
     gender = models.CharField(max_length=20, default="female", choices=(("male","male"), ("female","female")))
     phone_no = models.CharField(validators=[RegexValidator("^0?[5-9]{1}\d{9}$")], max_length=15, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
-    pic = DefaultStaticImageField(
-        upload_to="Download/",
-        storage=MediaCloudinaryStorage(),
-        blank=True,
-        default='Download/un.jpg')
+    pic = CloudinaryField('image', default='Download/un.jpg', null=True, blank=True)
+
+    # pic = DefaultStaticImageField(
+    #     upload_to="Download/",
+    #     storage=MediaCloudinaryStorage(),
+    #     blank=True,
+    #     default='Download/un.jpg')
 
 # profile signup  add 
     cr_date = models.DateTimeField(auto_now_add=True)
@@ -74,12 +74,13 @@ def save_user_profile(sender,instance,created,**kwargs):
     
 
 class MyPost(models.Model):
-    pic = models.ImageField(
-        upload_to="images/",
-        storage=MediaCloudinaryStorage(),
-        null=True,
-        blank=True,
-    )
+    pic = CloudinaryField('image', default='Download/un.jpg', null=True, blank=True)
+    # pic = DefaultStaticImageField(
+    #     upload_to="images/",
+    #     storage=MediaCloudinaryStorage(),
+    #     null=True,
+    #     blank=True,
+    # )
     subject = models.CharField(max_length = 200)
     videofile = models.FileField(
         upload_to="videos/",

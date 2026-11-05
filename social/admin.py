@@ -1,10 +1,10 @@
 from django.contrib import admin
-from social.models import FollowUser, MyPost, MyProfile, PostComment,PostLike ,Cont ,Comment
+from social.models import FollowUser, MyPost, MyProfile, PostComment,PostLike ,Contact ,Comment
 from django.contrib.admin.options import ModelAdmin
 
 # admin.site.register(Comment)
 
-@admin.register(Cont)
+@admin.register(Contact)
 class ContAdmin(admin.ModelAdmin):
      list_display = ['sno', 'name' ,'email' ,'phone', 'desc']
      ordering = ['name']
